@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aim-Tracker</title>
+    <title>Lern Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,7 +22,7 @@
     <div class="aim-tracker__container">
       <!-- Header section -->
       <header class="aim-tracker__header">
-        <h1 class="aim-tracker__title">Aim Tracker</h1>
+        <h1 class="aim-tracker__title">Lern Tracker</h1>
         <p class="aim-tracker__description">
           Behalte deine Ziele im Auge und tracke deine Fortschritte!
         </p>
@@ -30,7 +30,6 @@
 
       <!-- Main tracker area -->
       <div class="aim-tracker__tracker">
-
         <!-- Column for aims and time intervals -->
         <div class="aim-tracker__column aim-tracker__column--aims">
           <!-- Aims column Header-->
@@ -38,11 +37,11 @@
             <h2 class="aim-tracker__column-title">Ziele</h2>
             <div class="aim-tracker__aim-label-wrapper">
               <div class="aim-tracker__aim-label">Ziele</div>
-              <div class="aim-tracker__time-label">Zeit</div>
+              <div class="aim-tracker__time-label">Intervall</div>
             </div>
           </div>
           <!-- Wrapper for aim inputs -->
-          <div class="aim-tracker__aim-wrapper">
+          <div class="aim-tracker__aim-list">
             <div class="aim-tracker__aim">
               <input
                 type="text"
@@ -111,147 +110,152 @@
           <!-- Log column Header-->
           <div class="aim-tracker__column-header">
             <h2 class="aim-tracker__column-title">Monat</h2>
-            <!-- Days of the week labels -->
-            <div class="aim-tracker__days-label">
-              <div class="aim-tracker__day">1-Mo</div>
-              <div class="aim-tracker__day">2-Di</div>
-              <div class="aim-tracker__day">3-Mi</div>
-              <div class="aim-tracker__day">4-Do</div>
-              <div class="aim-tracker__day">5-Fr</div>
-              <div class="aim-tracker__day">6-Sa</div>
-              <div class="aim-tracker__day">7-So</div>
-            </div>
           </div>
 
           <!-- Wrapper for daily entries -->
-<div class="aim-tracker__entries-wrapper">
-   <button class="aim-tracker__arrow aim-tracker__arrow--left"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="aim-tracker__entries-wrapper">
+            <button class="aim-tracker__arrow aim-tracker__arrow--left">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="aim-tracker__entries-container">
+              <!-- Days of the week labels -->
+              <div class="aim-tracker__days-label">
+                <div class="aim-tracker__day">1-Mo</div>
+                <div class="aim-tracker__day">2-Di</div>
+                <div class="aim-tracker__day">3-Mi</div>
+                <div class="aim-tracker__day">4-Do</div>
+                <div class="aim-tracker__day">5-Fr</div>
+                <div class="aim-tracker__day">6-Sa</div>
+                <div class="aim-tracker__day">7-So</div>
+              </div>
+<div class="aim-tracker__entries-list">
+  <div class="aim-tracker__entries">
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+  </div>
 
-  <div class="aim-tracker__entries-container">
-            <div class="aim-tracker__entries">
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-            </div>
+  <div class="aim-tracker__entries">
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+  </div>
 
-            <div class="aim-tracker__entries">
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-            </div>
+  <div class="aim-tracker__entries">
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+  </div>
 
-            <div class="aim-tracker__entries">
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-            </div>
-
-            <div class="aim-tracker__entries">
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-            </div>
-            <div class="aim-tracker__entries">
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-              <div class="aim-tracker__entry">
-                <input type="text" class="aim-tracker__entry-input" />
-              </div>
-            </div>
-          </div>
-
-  <button class="aim-tracker__arrow aim-tracker__arrow--right"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="aim-tracker__entries">
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+  </div>
+  <div class="aim-tracker__entries">
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+    <div class="aim-tracker__entry">
+      <input type="text" class="aim-tracker__entry-input" />
+    </div>
+  </div>
 </div>
-         
+            
 
+            </div>
+
+            <button class="aim-tracker__arrow aim-tracker__arrow--right">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
 
         <!-- Column for review/analysis of entries -->
@@ -262,7 +266,7 @@
             <p class="aim-tracker__review-label">Auswertung</p>
           </div>
           <!-- Wrapper for review inputs -->
-          <div class="aim-tracker__review-container">
+          <div class="aim-tracker__review-list">
             <div class="aim-tracker__review">
               <input
                 type="text"
