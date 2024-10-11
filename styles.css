@@ -1,0 +1,118 @@
+/* General reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* CSS variables */
+
+:root {
+  /* CSS HSL */
+  --tiffany-blue: hsla(162, 39%, 71%, 1);
+  --apricot: hsla(22, 79%, 81%, 1);
+  --arylide-yellow: hsla(51, 84%, 66%, 1);
+  --thistle: hsla(263, 52%, 88%, 1);
+  --peach: hsla(29, 89%, 78%, 1);
+  --non-photo-blue: hsla(192, 58%, 75%, 1);
+  --thistle-2: hsla(300, 28%, 83%, 1);
+  --light-green: hsla(102, 54%, 72%, 1);
+  --apricot-2: hsla(18, 84%, 80%, 1);
+  --columbia-blue: hsla(207, 47%, 83%, 1);
+  --ash-gray: hsla(137, 17%, 80%, 1);
+  --columbia-blue-2: hsla(207, 34%, 79%, 1);
+  --french-gray: hsla(243, 23%, 82%, 1);
+  --fairy-tale: hsla(331, 77%, 88%, 1);
+  --ivory: hsla(69, 100%, 96%, 1);
+}
+
+/* Global styles */
+html {
+  font-size: 62, 5%; /* 1rme = 10px; */
+}
+
+body {
+  background-color: var(--ivory);
+  font-family: "Noto Sans Mono", monospace;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* Tracker styles */
+.aim-tracker {
+  display: grid;
+  grid-template-columns: minmax(25%, 1fr) minmax(50%, 2fr) minmax(25%, 1fr);
+  gap: 1rem;
+  border: 1px solid red;
+}
+.aim-tracker__column {
+  border: 1px solid;
+}
+.aim-tracker__aim {
+  display: flex;
+}
+.aim-tracker__aim-input {
+  width: 70%;
+}
+.aim-tracker__time-input {
+  width: 30%;
+}
+.aim-tracker__column--log {
+}
+.aim-tracker__days {
+  display: flex;
+}
+.aim-tracker__day {
+  width: calc(100% / 7);
+  border: 1px solid grey;
+}
+.aim-tracker__entries {
+  display: flex;
+}
+.aim-tracker__entry {
+  width: calc(100% / 7);
+}
+.aim-tracker__entry-input {
+  width: 100%;
+}
+
+.aim-tracker__review {
+}
+.aim-tracker__review-input {
+  width: 100%;
+}

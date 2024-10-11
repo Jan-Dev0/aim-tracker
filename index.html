@@ -1,14 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aim-Tracker</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://kit.fontawesome.com/19f117a27b.js" crossorigin="anonymous"></script>
-  <script src="main.js" defer></script>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aim-Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans+Mono:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://kit.fontawesome.com/19f117a27b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <div class="aim-tracker">
+      <div class="aim-tracker__column aim-tracker__column--aims">
+        <div class="aim-tracker__aim">
+          <input type="text" class="aim-tracker__aim-input" placeholder="Ziel" />
+          <input type="text" class="aim-tracker__time-input" placeholder="Zeit" />
+        </div>
+        <div class="aim-tracker__aim">
+          <input type="text" class="aim-tracker__aim-input" placeholder="Ziel" />
+          <input type="text" class="aim-tracker__time-input" placeholder="Zeit" />
+        </div>
+        <div class="aim-tracker__aim">
+          <input type="text" class="aim-tracker__aim-input" placeholder="Ziel" />
+          <input type="text" class="aim-tracker__time-input" placeholder="Zeit" />
+        </div>
+        <div class="aim-tracker__aim">
+          <input type="text" class="aim-tracker__aim-input" placeholder="Ziel" />
+          <input type="text" class="aim-tracker__time-input" placeholder="Zeit" />
+        </div>
+        <div class="aim-tracker__aim">
+          <input type="text" class="aim-tracker__aim-input" placeholder="Ziel" />
+          <input type="text" class="aim-tracker__time-input" placeholder="Zeit" />
+        </div>
+      </div>
+
+      <div class="aim-tracker__column aim-tracker__column--log">
+        <div class="aim-tracker__days">
+          <div class="aim-tracker__day">Mo</div>
+          <div class="aim-tracker__day">Di</div>
+          <div class="aim-tracker__day">Mi</div>
+          <div class="aim-tracker__day">Do</div>
+          <div class="aim-tracker__day">Fr</div>
+          <div class="aim-tracker__day">Sa</div>
+          <div class="aim-tracker__day">So</div>
+        </div>
+        <div class="aim-tracker__entries">
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+          <div class="aim-tracker__entry">
+            <input type="text" class="aim-tracker__entry-input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="aim-tracker__column aim-tracker__column--review">
+        <div class="aim-tracker__review">
+          <input type="text" class="aim-tracker__review-input" placeholder="Auswertung" />
+        </div>
+        <div class="aim-tracker__review">
+          <input type="text" class="aim-tracker__review-input" placeholder="Auswertung" />
+        </div>
+        <div class="aim-tracker__review">
+          <input type="text" class="aim-tracker__review-input" placeholder="Auswertung" />
+        </div>
+        <div class="aim-tracker__review">
+          <input type="text" class="aim-tracker__review-input" placeholder="Auswertung" />
+        </div>
+        <div class="aim-tracker__review">
+          <input type="text" class="aim-tracker__review-input" placeholder="Auswertung" />
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
