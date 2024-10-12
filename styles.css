@@ -69,7 +69,9 @@ body {
   letter-spacing: 0px;
   min-height: 100vh;
 }
+
 /* Container styles */
+
 .aim-tracker__container {
   display: flex;
   flex-direction: column;
@@ -78,7 +80,9 @@ body {
   margin: 0 auto;
   border: 1px solid #ccc;
 }
+
 /* Header styles */
+
 .aim-tracker__header {
   display: flex;
   flex-direction: column;
@@ -86,7 +90,9 @@ body {
   align-items: center;
   padding: 3.2rem;
 }
+
 /* Tracker styles */
+
 .aim-tracker__tracker {
   display: grid;
   grid-template-columns:
