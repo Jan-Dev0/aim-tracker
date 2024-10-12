@@ -53,6 +53,8 @@ h6 {
   --french-gray: hsla(243, 23%, 82%, 1);
   --fairy-tale: hsla(331, 77%, 88%, 1);
   --ivory: hsla(69, 100%, 96%, 1);
+  --delft-blue: #1e3050ff;
+ 
 }
 
 /* Global styles */
@@ -102,6 +104,10 @@ body {
   padding: 3.2rem 1.2rem;
 }
 
+.aim-tracker__column--aims {
+  display: flex;
+  flex-direction: column;
+}
 .aim-tracker__aim-label-wrapper,
 .aim-tracker__aim {
   display: flex;
@@ -121,16 +127,25 @@ body {
 
 .aim-tracker__aim-label,
 .aim-tracker__time-label,
+.aim-tracker__day,
+.aim-tracker__review-label {
+  height: 3.2rem;
+  border-bottom: 1px solid grey;
+  padding-bottom: 0.3rem;
+  color: #888;
+  font-size: 1.4rem;
+}
 .aim-tracker__aim-input,
 .aim-tracker__time-input,
-.aim-tracker__day,
-.aim-tracker__entry-input,
-.aim-tracker__review-label,
+.aim-tracker__entry,
 .aim-tracker__review-input {
   height: 3.2rem;
   border: none;
   border-bottom: 1px solid grey;
   border-left: 1px solid grey;
+}
+.aim-tracker__entries-list {
+  border-right: 1px solid grey;
 }
 .aim-tracker__aim-label,
 .aim-tracker__time-label,
@@ -139,14 +154,18 @@ body {
   display: flex;
   align-items: flex-end;
 }
-
+.aim-tracker__time-input,
+.aim-tracker__review-input {
+  border-right: 1px solid grey;
+}
 .aim-tracker__entries-container {
   overflow-x: hidden;
 }
+
 .aim-tracker__days-label {
   width: 100%;
   height: 3.2rem;
-  
+
   justify-content: flex-start;
 }
 .aim-tracker__day {
@@ -165,7 +184,6 @@ body {
 .aim-tracker__entries {
   display: flex;
   justify-content: flex-start;
-  
 }
 .aim-tracker__entry {
   width: calc(100% / 7);
@@ -180,4 +198,53 @@ body {
 }
 .aim-tracker__review-input {
   width: 100%;
+}
+
+/* Arrow button styles */
+.aim-tracker__arrow {
+  border: none;
+  background-color: transparent;
+  color: #888;
+  font-size: 2.4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.aim-tracker__arrow:hover {
+  transform: scale(1.3);
+}
+
+.aim-tracker__add-aim-btn {
+  font-size: 2.4rem;
+  background-color: white;
+  border: 2px solid var(--delft-blue);
+  border-radius: 100%;
+  padding: 1.8rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-top: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  align-self: flex-end;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  
+}
+
+.aim-tracker__add-aim-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.aim-tracker__arrow {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.aim-tracker__entries-wrapper:hover .aim-tracker__arrow {
+  opacity: 1;
+  visibility: visible;
 }

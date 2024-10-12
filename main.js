@@ -7,6 +7,7 @@ const rightArrow = document.querySelector(".aim-tracker__arrow--right");
 const entriesContainer = document.querySelector(
   ".aim-tracker__entries-container"
 );
+const addBtn = document.querySelector(".aim-tracker__add-aim-btn");
 
 const date = new Date();
 const year = date.getFullYear();
@@ -16,17 +17,16 @@ const scrollAmount = 250;
 
 const createAimEntry = () => {
   const div = document.createElement("div");
-  const aimInput = document.createElement("input");
-  const timeInput = document.createElement("input");
-
+  const aimInput = document.createElement("div");
+  const timeInput = document.createElement("div");
+  const icon = document.createElement("i");
   div.classList.add("aim-tracker__aim");
-
-  aimInput.type = "text";
-  aimInput.placeholder = "Ziel";
+  aimInput.textContent = "Ziel";
+  timeInput.textContent = "Zeit";
+  icon.classList.add("fa-regular", "fa-circle-xmark");
   aimInput.classList.add("aim-tracker__aim-input");
+  aimInput.append(icon);
 
-  timeInput.type = "text";
-  timeInput.placeholder = "Zeit";
   timeInput.classList.add("aim-tracker__time-input");
   div.append(aimInput, timeInput);
   aimList.append(div);
@@ -34,14 +34,9 @@ const createAimEntry = () => {
 
 const createReviewEntry = () => {
   const entry = document.createElement("div");
-  const input = document.createElement("input");
 
-  entry.classList.add("aim-tracker__review-list");
-  input.type = "text";
-  input.placeholder = "Auswertung";
-  input.classList.add("aim-tracker__review-input");
-
-  entry.append(input);
+  entry.classList.add("aim-tracker__review-input");
+  entry.textContent = "Auswertung";
   reviewList.append(entry);
 };
 
@@ -60,13 +55,9 @@ const createLogEntry = () => {
 
   for (let i = 1; i <= lastDayOfMonth; i++) {
     const entry = document.createElement("div");
-    const input = document.createElement("input");
 
     entry.classList.add("aim-tracker__entry");
-    input.type = "text";
-    input.classList.add("aim-tracker__entry-input");
 
-    entry.append(input);
     listRow.append(entry);
   }
   entriesList.append(listRow);
@@ -94,4 +85,10 @@ rightArrow.addEventListener("click", () => {
     left: scrollAmount,
     behavior: "smooth",
   });
+});
+
+addBtn.addEventListener("click", () => {
+  createAimEntry();
+  createReviewEntry();
+  createLogEntry();
 });
