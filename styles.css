@@ -54,6 +54,8 @@ h6 {
   --fairy-tale: hsla(331, 77%, 88%, 1);
   --ivory: hsla(69, 100%, 96%, 1);
   --delft-blue: #1e3050ff;
+  --prussian-blue: #003153;
+  --black: #414A4C;
  
 }
 
@@ -64,6 +66,7 @@ html {
 
 body {
   background-color: var(--ivory);
+  color: var(--black);
   font-family: "Noto Sans Mono", monospace;
   font-weight: 400;
   font-size: 1.6rem;
@@ -79,7 +82,7 @@ body {
   flex-direction: column;
   max-width: 150rem;
   width: 98%;
-  margin: 0 auto;
+  margin: 3.2rem auto;
   border: 1px solid #ccc;
 }
 
@@ -93,6 +96,13 @@ body {
   padding: 3.2rem;
 }
 
+.aim-tracker__title {
+  padding: 1.2rem;
+}
+.aim-tracker__description {
+  color: #555;
+}
+
 /* Tracker styles */
 
 .aim-tracker__tracker {
@@ -104,18 +114,24 @@ body {
   padding: 3.2rem 1.2rem;
 }
 
-.aim-tracker__column--aims {
-  display: flex;
-  flex-direction: column;
-}
-.aim-tracker__aim-label-wrapper,
-.aim-tracker__aim {
-  display: flex;
-}
+/* Column styles */
 .aim-tracker__column-title {
   text-align: center;
   padding: 1.2rem;
 }
+
+/* Aim column styles */
+
+.aim-tracker__column--aims {
+  display: flex;
+  flex-direction: column;
+}
+
+.aim-tracker__aim-label-wrapper,
+.aim-tracker__aim {
+  display: flex;
+}
+
 .aim-tracker__aim-label,
 .aim-tracker__aim-input {
   width: 70%;
@@ -216,6 +232,7 @@ body {
 
 .aim-tracker__add-aim-btn {
   font-size: 2.4rem;
+  color: var(--delft-blue);
   background-color: white;
   border: 2px solid var(--delft-blue);
   border-radius: 100%;
@@ -227,7 +244,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
   align-self: flex-end;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   

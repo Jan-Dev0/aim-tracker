@@ -15,20 +15,20 @@ const month = date.getMonth();
 const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
 const scrollAmount = 250;
 
-const createAimEntry = () => {
+const createItem = () => {
   const div = document.createElement("div");
-  const aimInput = document.createElement("div");
-  const timeInput = document.createElement("div");
+  const aim = document.createElement("div");
+  const interval = document.createElement("div");
   const icon = document.createElement("i");
-  div.classList.add("aim-tracker__aim");
-  aimInput.textContent = "Ziel";
-  timeInput.textContent = "Zeit";
+  div.classList.add("aim-tracker__aim-wrapper");
+  aim.textContent = "Ziel";
+  interval.textContent = "Zeit";
   icon.classList.add("fa-regular", "fa-circle-xmark");
-  aimInput.classList.add("aim-tracker__aim-input");
-  aimInput.append(icon);
+  aim.classList.add("aim-tracker__aim");
+  aim.append(icon);
 
-  timeInput.classList.add("aim-tracker__time-input");
-  div.append(aimInput, timeInput);
+  interval.classList.add("aim-tracker__interval");
+  div.append(aim, interval);
   aimList.append(div);
 };
 
@@ -64,7 +64,7 @@ const createLogEntry = () => {
 };
 
 for (let i = 0; i < 5; i++) {
-  createAimEntry();
+  createItem();
   createReviewEntry();
   createLogEntry();
 }
