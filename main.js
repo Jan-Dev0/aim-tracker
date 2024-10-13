@@ -1,31 +1,37 @@
 const aimsList = document.querySelector(".aim-tracker__aims-list");
-const labelList = document.querySelector(".aim-tracker__days-label");
-const entriesList = document.querySelector(".aim-tracker__entries-list");
-const reviewList = document.querySelector(".aim-tracker__review-list");
+const labelList = document.querySelector(".aim-tracker__label-list");
+const logList = document.querySelector(".aim-tracker__check-list");
+const reviewList = document.querySelector(".aim-tracker__aim-review-list");
 const leftArrow = document.querySelector(".aim-tracker__arrow--left");
 const rightArrow = document.querySelector(".aim-tracker__arrow--right");
-const entriesContainer = document.querySelector(
-  ".aim-tracker__entries-container"
-);
+const logListWrapper = document.querySelector(".aim-tracker__log-list-wrapper");
 const addBtn = document.querySelector(".aim-tracker__add-aim-btn");
+const monthEl = document.querySelector(".aim-tracker__month-name");
 
 const date = new Date();
 const year = date.getFullYear();
-const month = date.getMonth();
-const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+const currMonth = date.getMonth();
+const currMonthName = date.toLocaleString('de-DE', { month: 'long' });
+const lastDayOfMonth = new Date(year, currMonth + 1, 0).getDate();
 const scrollAmount = 250;
+
+monthEl.textContent = currMonthName;
 
 const createItem = () => {
   const item = document.createElement("div");
   const aim = document.createElement("div");
   const interval = document.createElement("div");
+  const span = document.createElement("span");
   const icon = document.createElement("i");
+
   item.classList.add("aim-tracker__aim-wrapper");
   aim.textContent = "Ziel";
   interval.textContent = "Zeit";
-  icon.classList.add("fa-regular", "fa-circle-xmark", "aim-tracker__delete-btn");
+  span.classList.add("aim-tracker__delete-btn");
+  icon.classList.add("fa-regular", "fa-circle-xmark");
   aim.classList.add("aim-tracker__aim");
-  aim.append(icon);
+  span.append(icon);
+  aim.append(span);
 
   interval.classList.add("aim-tracker__interval");
   item.append(aim, interval);
@@ -35,45 +41,45 @@ const createItem = () => {
 const createReviewEntry = () => {
   const entry = document.createElement("div");
 
-  entry.classList.add("aim-tracker__review-input");
+  entry.classList.add("aim-tracker__aim-review");
   entry.textContent = "Auswertung";
   reviewList.append(entry);
 };
 
-const createLogLabel = () => {
+const createDayLabel = () => {
   for (let i = 1; i <= lastDayOfMonth; i++) {
     const label = document.createElement("div");
-    label.classList.add("aim-tracker__day");
+    label.classList.add("aim-tracker__day-label");
     label.textContent = `${i}`;
     labelList.append(label);
   }
 };
 
-const createLogEntry = () => {
-  const listRow = document.createElement("div");
-  listRow.classList.add("aim-tracker__entries");
+const createCheckField = () => {
+  const row = document.createElement("div");
+  row.classList.add("aim-tracker__check-row");
 
   for (let i = 1; i <= lastDayOfMonth; i++) {
-    const entry = document.createElement("div");
+    const checkField = document.createElement("div");
 
-    entry.classList.add("aim-tracker__entry");
+    checkField.classList.add("aim-tracker__check-field");
 
-    listRow.append(entry);
+    row.append(checkField);
   }
-  entriesList.append(listRow);
+  logList.append(row);
 };
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 8; i++) {
   createItem();
   createReviewEntry();
-  createLogEntry();
+  createCheckField();
 }
 
-createLogLabel();
+createDayLabel();
 
 leftArrow.addEventListener("click", () => {
   console.log("left");
-  entriesContainer.scrollBy({
+  logListWrapper.scrollBy({
     left: -scrollAmount,
     behavior: "smooth",
   });
@@ -81,14 +87,14 @@ leftArrow.addEventListener("click", () => {
 
 rightArrow.addEventListener("click", () => {
   console.log("right");
-  entriesContainer.scrollBy({
+  logListWrapper.scrollBy({
     left: scrollAmount,
     behavior: "smooth",
   });
 });
 
 addBtn.addEventListener("click", () => {
-  createAimEntry();
+  createItem();
   createReviewEntry();
-  createLogEntry();
+  createCheckField();
 });

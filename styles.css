@@ -114,6 +114,10 @@ body {
 }
 
 /* Column styles */
+.aim-tracker__column {
+  padding: 2rem;
+  border-radius: 5px;
+}
 .aim-tracker__column-title {
   text-align: center;
   padding: 1.2rem;
@@ -122,6 +126,7 @@ body {
 /* Aim column styles */
 
 .aim-tracker__column--aims {
+  background-color: var(--tiffany-blue);
   display: flex;
   flex-direction: column;
 }
@@ -144,7 +149,7 @@ body {
 .aim-tracker__aim-label,
 .aim-tracker__interval-label {
   height: 3.2rem;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #888;
   padding-bottom: 0.5rem;
   color: #888;
   font-size: 1.4rem;
@@ -153,26 +158,39 @@ body {
 }
 .aim-tracker__aim,
 .aim-tracker__interval {
-  color: #ccc;
+  color: #999;
+  height: 3.2rem;
   padding: 1rem 0.5rem;
-  border-bottom: 1px solid grey;
-  border-left: 1px solid grey;
+  border-bottom: 1px solid #888;
+  border-left: 1px solid #888;
   cursor: pointer;
 }
 
 .aim-tracker__interval {
-  border-right: 1px solid grey;
+  border-right: 1px solid #888;
 }
 
 .aim-tracker__aim:hover .aim-tracker__delete-btn {
   display: block;
 }
+
 /* Log columen styles */
-.aim-tracker__entries-container {
-  overflow-x: hidden;
+.aim-tracker__column--log {
+  background-color: var(--apricot);
+  display: flex;
+  flex-direction: column;
+}
+.aim-tracker__log-container {
+  display: flex;
+  align-items: center;
 }
 
-.aim-tracker__days-label {
+.aim-tracker__log-list-wrapper {
+  overflow-x: hidden;
+  flex: 1;
+}
+
+.aim-tracker__label-list {
   width: 100%;
   height: 3.2rem;
   justify-content: flex-start;
@@ -180,45 +198,41 @@ body {
   align-items: flex-end;
 }
 
-.aim-tracker__day {
-  width: calc(100% / 7);
-  letter-spacing: 0.1rem;
+.aim-tracker__day-label {
+  font-size: 1.4rem;
+  color: #888;
   font-weight: 300;
+  letter-spacing: 0.1rem;
+  width: calc((100% - 2px) / 14);
+  height: 3.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #888;
   flex-shrink: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 
-.aim-tracker__day {
-  height: 3.2rem;
-  border-bottom: 1px solid grey;
-  padding-bottom: 0.3rem;
-  color: #888;
-  font-size: 1.4rem;
+.aim-tracker__check-row {
+  display: flex;
 }
 
-.aim-tracker__entries-wrapper {
-  display: flex;
-  align-items: center;
-}
-.aim-tracker__entries {
-  display: flex;
-  justify-content: flex-start;
-}
-.aim-tracker__entry {
-  width: calc(100% / 7);
+.aim-tracker__check-field {
+  width: calc((100% - 2px) / 14);
   flex-shrink: 0;
-}
-.aim-tracker__entry-input {
-  width: 100%;
+  height: 3.2rem;
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
+  cursor: pointer;
 }
 
 /* Review column styles */
-
+.aim-tracker__column--review {
+  background-color: var(--columbia-blue);
+}
 .aim-tracker__review-label {
   height: 3.2rem;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #888;
   padding-bottom: 0.3rem;
   color: #888;
   font-size: 1.4rem;
@@ -227,12 +241,18 @@ body {
   width: 100%;
 }
 
-.aim-tracker__review-input {
+.aim-tracker__aim-review {
+  color: #999;
   width: 100%;
-  border-right: 1px solid grey;
+  height: 3.2rem;
+  padding: 1rem 0.5rem;
+  border: 1px solid #888;
+  border-top: none;
+  cursor: pointer;
 }
 
 /* Button styles */
+
 .aim-tracker__arrow {
   border: none;
   background-color: transparent;
@@ -242,6 +262,14 @@ body {
   transition: transform 0.3s ease;
 }
 
+.aim-tracker__arrow--left {
+padding-right: 1rem;
+}
+
+.aim-tracker__arrow--right {
+  padding-left: 1rem;
+}
+
 .aim-tracker__arrow:hover {
   transform: scale(1.3);
 }
@@ -249,13 +277,13 @@ body {
 .aim-tracker__add-aim-btn {
   font-size: 2.4rem;
   color: var(--delft-blue);
-  background-color: white;
+  background-color: var(--ivory);
   border: 2px solid var(--delft-blue);
   border-radius: 100%;
   padding: 1.8rem;
   width: 3.2rem;
   height: 3.2rem;
-  margin-top: 0.8rem;
+  margin-top: 1.2rem;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -275,14 +303,14 @@ body {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.aim-tracker__entries-wrapper:hover .aim-tracker__arrow {
+.aim-tracker__log-container:hover .aim-tracker__arrow {
   opacity: 1;
   visibility: visible;
 }
 .aim-tracker__delete-btn {
   display: none;
   margin-left: auto;
-  color: red;
+  color: tomato;
   transition: transform 0.3s ease;
   cursor: pointer;
 }

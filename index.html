@@ -30,10 +30,8 @@
 
       <!-- Main tracker area -->
       <div class="aim-tracker__tracker">
-        
         <!-- Column for aims and time intervals -->
         <div class="aim-tracker__column aim-tracker__column--aims">
-
           <!-- Aims column Header-->
           <div class="aim-tracker__column-header">
             <h2 class="aim-tracker__column-title">Ziele</h2>
@@ -54,44 +52,24 @@
         <div class="aim-tracker__column aim-tracker__column--log">
           <!-- Log column Header-->
           <div class="aim-tracker__column-header">
-            <h2 class="aim-tracker__column-title">Monat</h2>
+            <h2 class="aim-tracker__column-title">
+              <i class="fa-solid fa-caret-left aim-tracker__month-nav--prev"></i>
+              <span class="aim-tracker__month-name">Monat</span>
+              <i class="fa-solid fa-caret-right aim-tracker__month-nav--next"></i>
+            </h2>
+            
           </div>
 
           <!-- Wrapper for daily entries -->
-          <div class="aim-tracker__entries-wrapper">
+          <div class="aim-tracker__log-container">
             <button class="aim-tracker__arrow aim-tracker__arrow--left">
               <i class="fa-solid fa-chevron-left"></i>
             </button>
-            <div class="aim-tracker__entries-container">
+            <div class="aim-tracker__log-list-wrapper">
               <!-- Days of the week labels -->
-              <div class="aim-tracker__days-label">
-              </div>
+              <div class="aim-tracker__label-list"></div>
 
-              <div class="aim-tracker__entries-list">
-                <!--<div class="aim-tracker__entries">
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                  <div class="aim-tracker__entry">
-                    <input type="text" class="aim-tracker__entry-input" />
-                  </div>
-                </div>
-              --></div>
+              <div class="aim-tracker__check-list"></div>
             </div>
 
             <button class="aim-tracker__arrow aim-tracker__arrow--right">
@@ -108,7 +86,7 @@
             <p class="aim-tracker__review-label">Auswertung</p>
           </div>
           <!-- Wrapper for review inputs -->
-          <div class="aim-tracker__review-list"></div>
+          <div class="aim-tracker__aim-review-list"></div>
         </div>
       </div>
     </div>
