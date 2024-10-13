@@ -1,4 +1,4 @@
-const aimList = document.querySelector(".aim-tracker__aim-list");
+const aimsList = document.querySelector(".aim-tracker__aims-list");
 const labelList = document.querySelector(".aim-tracker__days-label");
 const entriesList = document.querySelector(".aim-tracker__entries-list");
 const reviewList = document.querySelector(".aim-tracker__review-list");
@@ -16,20 +16,20 @@ const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
 const scrollAmount = 250;
 
 const createItem = () => {
-  const div = document.createElement("div");
+  const item = document.createElement("div");
   const aim = document.createElement("div");
   const interval = document.createElement("div");
   const icon = document.createElement("i");
-  div.classList.add("aim-tracker__aim-wrapper");
+  item.classList.add("aim-tracker__aim-wrapper");
   aim.textContent = "Ziel";
   interval.textContent = "Zeit";
-  icon.classList.add("fa-regular", "fa-circle-xmark");
+  icon.classList.add("fa-regular", "fa-circle-xmark", "aim-tracker__delete-btn");
   aim.classList.add("aim-tracker__aim");
   aim.append(icon);
 
   interval.classList.add("aim-tracker__interval");
-  div.append(aim, interval);
-  aimList.append(div);
+  item.append(aim, interval);
+  aimsList.append(item);
 };
 
 const createReviewEntry = () => {
