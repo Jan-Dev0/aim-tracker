@@ -25,8 +25,18 @@ const formatDate = (year, month, day) => {
   return `${year}-${month}-${day}`.replace(/\b(\d)\b/g, "0$1");
 };
 
-const createItem = () => {
-  const aimWrapper = document.createElement("div");
+const createDayLabel = () => {
+  for (let i = 1; i <= lastDayOfMonth; i++) {
+    const label = document.createElement("div");
+    label.classList.add("aim-tracker__day-label");
+    label.textContent = `${i}`;
+    label.setAttribute("data-date", formatDate(year, currMonth, i));
+    labelList.append(label);
+  }
+};
+
+const createAimRow = () => {
+  const aimRow= document.createElement("div");
   const aim = document.createElement("div");
   const interval = document.createElement("div");
   const deleteBtn = document.createElement("span");
@@ -36,8 +46,8 @@ const createItem = () => {
 
   rowId++;
 
-  aimWrapper.classList.add("aim-tracker__aim-wrapper");
-  aimWrapper.setAttribute("data-row-id", rowId);
+  aimRow.classList.add("aim-tracker__aim-wrapper");
+  aimRow.setAttribute("data-row-id", rowId);
   aim.textContent = "Ziel";
   aim.classList.add("aim-tracker__aim");
   interval.textContent = "Zeit";
@@ -57,27 +67,44 @@ const createItem = () => {
   arrowWrapper.append(arrowIcon);
   deleteBtn.append(deleteIcon);
   aim.append(deleteBtn);
-  aimWrapper.append(aim, interval, arrowWrapper);
-  aimsList.append(aimWrapper);
+  aimRow.append(aim, interval, arrowWrapper);
 
   deleteBtn.addEventListener("click", (e) => {
     const id = deleteBtn.getAttribute("data-row-id");
-    const aimRow = document.querySelector(`.aim-tracker__aim-wrapper[data-row-id="${id}"]`);
-    const checkRow = document.querySelector(`.aim-tracker__check-row[data-row-id="${id}"]`);
-    const reviewRow = document.querySelector(`.aim-tracker__aim-review-wrapper[data-row-id="${id}"]`);
-    aimRow.remove();
-    checkRow.remove();
-    reviewRow.remove();
+    const aimRow = document.querySelector(
+      `.aim-tracker__aim-wrapper[data-row-id="${id}"]`
+    );
+    const checkRow = document.querySelector(
+      `.aim-tracker__check-row[data-row-id="${id}"]`
+    );
+    const reviewRow = document.querySelector(
+      `.aim-tracker__aim-review-wrapper[data-row-id="${id}"]`
+    );
 
+    aimRow.classList.remove("aim-tracker__aim-wrapper--visible");
+    checkRow.classList.remove("aim-tracker__check-row--visible");
+    reviewRow.classList.remove("aim-tracker__aim-review-wrapper--visible");
+    setTimeout(() => {
+      aimRow.remove();
+
+      checkRow.remove();
+
+      reviewRow.remove();
+    }, 300);
   });
-  
+
+  aim.addEventListener('click', () => {
+    editEntry(aim);
+  });
+    interval.addEventListener("click", () => {
+      editEntry(interval);
+    });
 
 
-  createReviewEntry();
-  createCheckField();
+  return aimRow;
 };
 
-const createReviewEntry = () => {
+const createReviewRow = () => {
   const reviewWrapper = document.createElement("div");
   const reviewEntry = document.createElement("div");
 
@@ -86,20 +113,10 @@ const createReviewEntry = () => {
   reviewEntry.classList.add("aim-tracker__aim-review");
   reviewEntry.textContent = "Auswertung";
   reviewWrapper.append(reviewEntry);
-  reviewList.append(reviewWrapper);
+  return reviewWrapper;
 };
 
-const createDayLabel = () => {
-  for (let i = 1; i <= lastDayOfMonth; i++) {
-    const label = document.createElement("div");
-    label.classList.add("aim-tracker__day-label");
-    label.textContent = `${i}`;
-    label.setAttribute("data-date", formatDate(year, currMonth, i));
-    labelList.append(label);
-  }
-};
-
-const createCheckField = () => {
+const createCheckRow = () => {
   const row = document.createElement("div");
   row.classList.add("aim-tracker__check-row");
   row.setAttribute("data-row-id", rowId);
@@ -114,14 +131,62 @@ const createCheckField = () => {
 
     checkField.addEventListener("click", (e) => {
       isChecked = checkField.getAttribute("data-checked") === "true";
-      checkField.setAttribute("data-checked", !isChecked);
+      isChecked = !isChecked;
+      checkField.setAttribute("data-checked", isChecked);
+      console.log(isChecked);
+      if (isChecked) {
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-x";
+        checkField.appendChild(icon);
+      } else {
+        checkField.innerHTML = ""; // Entfernt den Inhalt, falls `isChecked` false ist
+      }
     });
   }
-  logList.append(row);
+  return row;
 };
 
+const addRow = () => {
+  const aimRow = createAimRow();
+  aimsList.appendChild(aimRow);
+
+  const checkRow = createCheckRow();
+  logList.appendChild(checkRow);
+
+  const reviewRow = createReviewRow();
+  reviewList.appendChild(reviewRow);
+
+  setTimeout(() => {
+    aimRow.classList.add("aim-tracker__aim-wrapper--visible");
+    checkRow.classList.add("aim-tracker__check-row--visible");
+    reviewRow.classList.add("aim-tracker__aim-review-wrapper--visible");
+  }, 10);
+};
+
+const editEntry = (entry) => {
+  const currentText = entry.textContent;
+  const input = document.createElement('input');
+
+  input.type = "text";
+  input.value = currentText;
+  input.classList.add('aim-tracker__aim-input');
+  entry.classList.add('aim-tracker__aim--editing');
+  entry.innerHTML = "";
+  entry.append(input);
+
+}
+
+
 for (let i = 0; i < 8; i++) {
-  createItem();
+  const aimRow = createAimRow();
+  aimsList.appendChild(aimRow);
+  aimRow.classList.add("aim-tracker__aim-wrapper--visible");
+  const checkRow = createCheckRow();
+  logList.appendChild(checkRow);
+  checkRow.classList.add("aim-tracker__check-row--visible");
+  const reviewRow = createReviewRow();
+  reviewList.appendChild(reviewRow);
+  reviewRow.classList.add("aim-tracker__aim-review-wrapper--visible");
 }
 
 createDayLabel();
@@ -151,6 +216,5 @@ rightArrow.addEventListener("click", () => {
 });
 
 addBtn.addEventListener("click", () => {
-  createItem();
+  addRow();
 });
-
