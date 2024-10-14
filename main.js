@@ -7,13 +7,18 @@ const rightArrow = document.querySelector(".aim-tracker__arrow--right");
 const logListWrapper = document.querySelector(".aim-tracker__log-list-wrapper");
 const addBtn = document.querySelector(".aim-tracker__add-aim-btn");
 const monthEl = document.querySelector(".aim-tracker__month-name");
+const monthPrev = document.querySelector("aim-tracker__month-nav--prev");
+const monthNext = document.querySelector(".aim-tracker__month-nav--next");
+
+
+console.log(logListWrapper.offsetWidth);
 
 const date = new Date();
 const year = date.getFullYear();
 const currMonth = date.getMonth();
 const currMonthName = date.toLocaleString('de-DE', { month: 'long' });
 const lastDayOfMonth = new Date(year, currMonth + 1, 0).getDate();
-const scrollAmount = 250;
+let scrollAmount;
 
 monthEl.textContent = currMonthName;
 
@@ -77,8 +82,12 @@ for (let i = 0; i < 8; i++) {
 
 createDayLabel();
 
+const checkField = document.querySelector(".aim-tracker__check-field");
+
 leftArrow.addEventListener("click", () => {
-  console.log("left");
+    console.log(logListWrapper.offsetWidth);
+    scrollAmount = (logListWrapper.offsetWidth) / 2 - 1.5;
+    console.log(scrollAmount);
   logListWrapper.scrollBy({
     left: -scrollAmount,
     behavior: "smooth",
@@ -86,7 +95,10 @@ leftArrow.addEventListener("click", () => {
 });
 
 rightArrow.addEventListener("click", () => {
-  console.log("right");
+  console.log(logListWrapper.offsetWidth);
+  console.log(checkField.offsetWidth);
+  scrollAmount = (logListWrapper.offsetWidth ) / 2 - 1.5;
+  console.log(scrollAmount);
   logListWrapper.scrollBy({
     left: scrollAmount,
     behavior: "smooth",

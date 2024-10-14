@@ -38,8 +38,19 @@ h6 {
 
 :root {
   /* CSS HSL */
-  --tiffany-blue: hsla(162, 39%, 71%, 1);
-  --apricot: hsla(22, 79%, 81%, 1);
+  --tiffany-blue: #98d2c1;
+  --tiffan-blue-darker: #71c1a9;
+  --apricot: #f5c4a8;
+  --apricot-darker: #f0a97f;
+  --columbia-blue: #bfd6e8;
+  --columbia-blue-darker: #96bcd9;
+
+  --ivory: hsla(69, 100%, 96%, 1);
+  --delft-blue: #1e3050ff;
+  --prussian-blue: #003153;
+  --black: #414a4c;
+  --red: #ff3800;
+
   --arylide-yellow: hsla(51, 84%, 66%, 1);
   --thistle: hsla(263, 52%, 88%, 1);
   --peach: hsla(29, 89%, 78%, 1);
@@ -47,15 +58,11 @@ h6 {
   --thistle-2: hsla(300, 28%, 83%, 1);
   --light-green: hsla(102, 54%, 72%, 1);
   --apricot-2: hsla(18, 84%, 80%, 1);
-  --columbia-blue: hsla(207, 47%, 83%, 1);
+
   --ash-gray: hsla(137, 17%, 80%, 1);
   --columbia-blue-2: hsla(207, 34%, 79%, 1);
   --french-gray: hsla(243, 23%, 82%, 1);
   --fairy-tale: hsla(331, 77%, 88%, 1);
-  --ivory: hsla(69, 100%, 96%, 1);
-  --delft-blue: #1e3050ff;
-  --prussian-blue: #003153;
-  --black: #414a4c;
 }
 
 /* Global styles */
@@ -152,7 +159,7 @@ body {
   border-bottom: 1px solid #888;
   padding-bottom: 0.5rem;
   color: #888;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   display: flex;
   align-items: flex-end;
 }
@@ -170,6 +177,12 @@ body {
   border-right: 1px solid #888;
 }
 
+.aim-tracker__aim-wrapper:hover .aim-tracker__aim,
+.aim-tracker__aim-wrapper:hover .aim-tracker__interval {
+  color: #ccc;
+  background-color: var(--tiffan-blue-darker);
+}
+
 .aim-tracker__aim:hover .aim-tracker__delete-btn {
   display: block;
 }
@@ -180,6 +193,14 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.aim-tracker__month-nav--prev,
+.aim-tracker__month-nav--next {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 1rem ;
+}
+
 .aim-tracker__log-container {
   display: flex;
   align-items: center;
@@ -203,7 +224,7 @@ body {
   color: #888;
   font-weight: 300;
   letter-spacing: 0.1rem;
-  width: calc((100% - 2px) / 14);
+  width: calc((100% - 0.2rem) / 14);
   height: 3.2rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid #888;
@@ -218,12 +239,20 @@ body {
 }
 
 .aim-tracker__check-field {
-  width: calc((100% - 2px) / 14);
+  width: calc((100% - 0.2rem) / 14);
   flex-shrink: 0;
   height: 3.2rem;
   border-bottom: 1px solid grey;
   border-left: 1px solid grey;
   cursor: pointer;
+}
+
+.aim-tracker__check-field:last-child {
+  border-right: 1px solid grey;
+}
+
+.aim-tracker__check-field:hover {
+  background-color: var(--apricot-darker);
 }
 
 /* Review column styles */
@@ -233,9 +262,9 @@ body {
 .aim-tracker__review-label {
   height: 3.2rem;
   border-bottom: 1px solid #888;
-  padding-bottom: 0.3rem;
+  padding-bottom: 0.5rem;
   color: #888;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   display: flex;
   align-items: flex-end;
   width: 100%;
@@ -251,6 +280,11 @@ body {
   cursor: pointer;
 }
 
+.aim-tracker__aim-review:hover {
+  color: #ccc;
+  background-color: var(--columbia-blue-darker);
+}
+
 /* Button styles */
 
 .aim-tracker__arrow {
@@ -263,7 +297,7 @@ body {
 }
 
 .aim-tracker__arrow--left {
-padding-right: 1rem;
+  padding-right: 1rem;
 }
 
 .aim-tracker__arrow--right {
@@ -310,7 +344,7 @@ padding-right: 1rem;
 .aim-tracker__delete-btn {
   display: none;
   margin-left: auto;
-  color: tomato;
+  color: var(--red);
   transition: transform 0.3s ease;
   cursor: pointer;
 }
