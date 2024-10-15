@@ -10,34 +10,19 @@ const monthEl = document.querySelector(".aim-tracker__month-name");
 const monthPrev = document.querySelector(".aim-tracker__month-nav--prev");
 const monthNext = document.querySelector(".aim-tracker__month-nav--next");
 
-const date = new Date();
-const year = date.getFullYear();
-const currentMonth = date.getMonth();
-const currentMonthName = date.toLocaleString("de-DE", { month: "long" });
-const lastDayOfMonth = new Date(year, currentMonth + 1, 0).getDate();
+const DateTime = luxon.DateTime;
+
+const date = DateTime.now().setLocale("de");
+const year = date.year;
+let currentMonth = date.month;
+let prevMonth = date.minus({ month: 1 }).month;
+let nextMonth = date.plus({ month: 1 }).month;
+let currentMonthName = date.toFormat("LLLL");
 
 let rowId = 0;
 let scrollAmount;
 
 monthEl.textContent = `${currentMonthName} ${year}`;
-
-const formatDate = (year, month, day) => {
-  return `${year}-${month}-${day}`.replace(/\b(\d)\b/g, "0$1");
-};
-
-const createDayLabel = () => {
-  for (let day = 1; day <= lastDayOfMonth; day++) {
-    const weekday = new Date(year, currentMonth, day).getDay();
-    const label = document.createElement("div");
-    label.classList.add("aim-tracker__day-label");
-    label.textContent = `${day}`;
-    if (weekday === 0 || weekday === 6) {
-      label.classList.add('aim-tracker__day-label--weekend');
-    }
-    label.setAttribute("data-date", formatDate(year, currentMonth, day));
-    labelList.append(label);
-  }
-};
 
 const createAimRow = () => {
   const aimRow = document.createElement("div");
@@ -58,7 +43,11 @@ const createAimRow = () => {
   interval.classList.add("aim-tracker__interval");
   deleteBtn.classList.add("aim-tracker__delete-btn");
   deleteBtn.setAttribute("data-row-id", rowId);
-  deleteIcon.classList.add("fa-regular", "fa-circle-xmark", "aim-tracker__delete-btn-icon");
+  deleteIcon.classList.add(
+    "fa-regular",
+    "fa-circle-xmark",
+    "aim-tracker__delete-btn-icon"
+  );
 
   arrowWrapper.classList.add("aim-tracker__aim-arrow-wrapper");
   arrowIcon.classList.add(
@@ -106,21 +95,41 @@ const createAimRow = () => {
   return aimRow;
 };
 
+const createDayLabel = () => {
+  labelList.innerHTML = "";
+  const date = DateTime.local(year, currentMonth);
+  let daysInMonth = date.daysInMonth;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = DateTime.local(year, currentMonth, day);
+    const weekday = date.weekday;
+    const label = document.createElement("div");
+    label.classList.add("aim-tracker__day-label");
+    label.textContent = `${day}`;
+    if (weekday === 6 || weekday === 7) {
+      label.classList.add("aim-tracker__day-label--weekend");
+    }
+    label.setAttribute("data-date", date.toFormat("yyyy-MM-dd"));
+    labelList.append(label);
+  }
+};
+
 const createCheckRow = () => {
+  const date = DateTime.local(year, currentMonth);
+  let daysInMonth = date.daysInMonth;
   const row = document.createElement("div");
   row.classList.add("aim-tracker__check-row");
   row.setAttribute("data-row-id", rowId);
 
-  for (let day = 1; day <= lastDayOfMonth; day++) {
+  for (let day = 1; day <= daysInMonth; day++) {
     const checkField = document.createElement("div");
-    const weekday = new Date(year, currentMonth, day).getDay();
-
+    const date = DateTime.local(year, currentMonth, day);
+    const weekday = date.weekday;
     checkField.classList.add("aim-tracker__check-field");
-    checkField.setAttribute("data-date", formatDate(year, currentMonth, day));
+    checkField.setAttribute("data-date", date.toFormat("yyyy-MM-dd"));
     checkField.setAttribute("data-checked", false);
 
-    if (weekday === 0 || weekday === 6) {
-      checkField.classList.add('aim-tracker__check-field--weekend');
+    if (weekday === 6 || weekday === 7) {
+      checkField.classList.add("aim-tracker__check-field--weekend");
     }
 
     row.append(checkField);
@@ -263,9 +272,8 @@ const checkField = document.querySelector(".aim-tracker__check-field");
 const deleteBtn = document.querySelector(".aim-tracker__delete-btn");
 
 leftArrow.addEventListener("click", () => {
-  console.log(logListWrapper.offsetWidth);
   scrollAmount = logListWrapper.offsetWidth / 2 - 1.5;
-  console.log(scrollAmount);
+
   logListWrapper.scrollBy({
     left: -scrollAmount,
     behavior: "smooth",
@@ -273,10 +281,8 @@ leftArrow.addEventListener("click", () => {
 });
 
 rightArrow.addEventListener("click", () => {
-  console.log(logListWrapper.offsetWidth);
-  console.log(checkField.offsetWidth);
   scrollAmount = logListWrapper.offsetWidth / 2 - 1.5;
-  console.log(scrollAmount);
+
   logListWrapper.scrollBy({
     left: scrollAmount,
     behavior: "smooth",
@@ -287,10 +293,32 @@ addBtn.addEventListener("click", () => {
   addRow();
 });
 
-monthPrev.addEventListener('click', () => {
-
+monthPrev.addEventListener("click", () => {
+  nextMonth = currentMonth;
+  currentMonth = prevMonth;
+  prevMonth = prevMonth - 1;
+  createDayLabel();
+  logList.innerHTML = "";
+  currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
+  monthEl.textContent = `${currentMonthName} ${year}`;
+  for (let i = 0; i < 8; i++) {
+    const checkRow = createCheckRow();
+    logList.appendChild(checkRow);
+    checkRow.classList.add("aim-tracker__check-row--visible");
+  }
 });
 
-monthNext.addEventListener('click', () => {
-  
+monthNext.addEventListener("click", () => {
+  prevMonth = currentMonth;
+  currentMonth = nextMonth;
+  nextMonth = nextMonth + 1;
+  createDayLabel();
+  logList.innerHTML = "";
+  currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
+  monthEl.textContent = `${currentMonthName} ${year}`;
+  for (let i = 0; i < 8; i++) {
+    const checkRow = createCheckRow();
+    logList.appendChild(checkRow);
+    checkRow.classList.add("aim-tracker__check-row--visible");
+  }
 });
