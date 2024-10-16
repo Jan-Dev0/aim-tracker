@@ -231,6 +231,7 @@ body {
 }
 
 /* Log columen styles */
+
 .aim-tracker__column--log {
   background-color: var(--apricot);
   display: flex;
@@ -259,12 +260,18 @@ body {
   align-items: center;
 }
 
-.aim-tracker__log-list-wrapper {
+.aim-tracker__months-container {
   overflow-x: hidden;
   flex: 1;
+  display: flex;
 }
 
-.aim-tracker__label-list {
+.aim-tracker__month-container {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+.aim-tracker__labels-container {
   width: 100%;
   justify-content: flex-start;
   display: flex;
@@ -284,6 +291,10 @@ body {
   justify-content: center;
 }
 
+.aim-tracker__check-field-container {
+  display: flex;
+  flex-direction: column;
+}
 .aim-tracker__check-row {
   display: flex;
   margin-bottom: 1rem;

@@ -1,10 +1,8 @@
-const aimsList = document.querySelector(".aim-tracker__aims-list");
-const labelList = document.querySelector(".aim-tracker__label-list");
-const logList = document.querySelector(".aim-tracker__check-list");
-const reviewList = document.querySelector(".aim-tracker__aim-review-list");
+const aimsContainer = document.querySelector(".aim-tracker__aims-container");
+const reviewContainer = document.querySelector(".aim-tracker__review-container");
 const leftArrow = document.querySelector(".aim-tracker__nav-arrow--left");
 const rightArrow = document.querySelector(".aim-tracker__nav-arrow--right");
-const logListWrapper = document.querySelector(".aim-tracker__log-list-wrapper");
+const monthsContainer = document.querySelector(".aim-tracker__months-container");
 const addBtn = document.querySelector(".aim-tracker__add-aim-btn");
 const monthEl = document.querySelector(".aim-tracker__month-name");
 const monthPrev = document.querySelector(".aim-tracker__month-nav--prev");
@@ -15,92 +13,84 @@ const DateTime = luxon.DateTime;
 const date = DateTime.now().setLocale("de");
 const year = date.year;
 let currentMonth = date.month;
+
 let prevMonth = date.minus({ month: 1 }).month;
 let nextMonth = date.plus({ month: 1 }).month;
 let currentMonthName = date.toFormat("LLLL");
 
+const defaultRows = 8;
 let rowId = 0;
 let scrollAmount;
 
 monthEl.textContent = `${currentMonthName} ${year}`;
 
-const createAimRow = () => {
-  const aimRow = document.createElement("div");
-  const aim = document.createElement("div");
-  const interval = document.createElement("div");
-  const deleteBtn = document.createElement("span");
-  const deleteIcon = document.createElement("i");
-  const arrowWrapper = document.createElement("div");
-  const arrowIcon = document.createElement("i");
+const createAimRows = (rows = 1) => {
+  const fragment = document.createDocumentFragment();
 
-  rowId++;
+  for (let i = 1; i <= rows; i++) {
+    const aimRow = document.createElement("div");
+    const aim = document.createElement("div");
+    const interval = document.createElement("div");
+    const deleteBtn = document.createElement("span");
+    const deleteIcon = document.createElement("i");
+    const arrowWrapper = document.createElement("div");
+    const arrowIcon = document.createElement("i");
 
-  aimRow.classList.add("aim-tracker__aim-row");
-  aimRow.setAttribute("data-row-id", rowId);
-  aim.textContent = "Ziel";
-  aim.classList.add("aim-tracker__aim");
-  interval.textContent = "Zeit";
-  interval.classList.add("aim-tracker__interval");
-  deleteBtn.classList.add("aim-tracker__delete-btn");
-  deleteBtn.setAttribute("data-row-id", rowId);
-  deleteIcon.classList.add(
-    "fa-regular",
-    "fa-circle-xmark",
-    "aim-tracker__delete-btn-icon"
-  );
+    rowId++;
 
-  arrowWrapper.classList.add("aim-tracker__aim-arrow-wrapper");
-  arrowIcon.classList.add(
-    "fa-solid",
-    "fa-arrow-right-long",
-    "fa-xl",
-    "aim-tracker__aim-arrow"
-  );
+    aimRow.classList.add("aim-tracker__aim-row", "aim-tracker__aim-row--visible");
+    aimRow.setAttribute("data-row-id", rowId);
+    aim.textContent = "Ziel";
+    aim.classList.add("aim-tracker__aim");
+    interval.textContent = "Zeit";
+    interval.classList.add("aim-tracker__interval");
+    deleteBtn.classList.add("aim-tracker__delete-btn");
+    deleteBtn.setAttribute("data-row-id", rowId);
+    deleteIcon.classList.add("fa-regular", "fa-circle-xmark", "aim-tracker__delete-btn-icon");
 
-  arrowWrapper.append(arrowIcon);
-  deleteBtn.append(deleteIcon);
-  aimRow.append(deleteBtn, aim, interval, arrowWrapper);
+    arrowWrapper.classList.add("aim-tracker__aim-arrow-wrapper");
+    arrowIcon.classList.add("fa-solid", "fa-arrow-right-long", "fa-xl", "aim-tracker__aim-arrow");
 
-  deleteBtn.addEventListener("click", (e) => {
-    const id = deleteBtn.getAttribute("data-row-id");
-    const aimRow = document.querySelector(
-      `.aim-tracker__aim-row[data-row-id="${id}"]`
-    );
-    const checkRow = document.querySelector(
-      `.aim-tracker__check-row[data-row-id="${id}"]`
-    );
-    const reviewRow = document.querySelector(
-      `.aim-tracker__review-row[data-row-id="${id}"]`
-    );
+    arrowWrapper.append(arrowIcon);
+    deleteBtn.append(deleteIcon);
+    aimRow.append(deleteBtn, aim, interval, arrowWrapper);
 
-    aimRow.classList.remove("aim-tracker__aim-row--visible");
-    checkRow.classList.remove("aim-tracker__check-row--visible");
-    reviewRow.classList.remove("aim-tracker__review-row--visible");
-    setTimeout(() => {
-      aimRow.remove();
+    deleteBtn.addEventListener("click", (e) => {
+      const id = deleteBtn.getAttribute("data-row-id");
+      const aimRow = document.querySelector(`.aim-tracker__aim-row[data-row-id="${id}"]`);
+      const checkRow = document.querySelector(`.aim-tracker__check-row[data-row-id="${id}"]`);
+      const reviewRow = document.querySelector(`.aim-tracker__review-row[data-row-id="${id}"]`);
 
-      checkRow.remove();
+      aimRow.classList.remove("aim-tracker__aim-row--visible");
+      checkRow.classList.remove("aim-tracker__check-row--visible");
+      reviewRow.classList.remove("aim-tracker__review-row--visible");
+      setTimeout(() => {
+        aimRow.remove();
 
-      reviewRow.remove();
-    }, 300);
-  });
+        checkRow.remove();
 
-  aim.addEventListener("click", (e) => {
-    editEntry(aim);
-  });
-  interval.addEventListener("click", () => {
-    editEntry(interval);
-  });
+        reviewRow.remove();
+      }, 300);
+    });
 
-  return aimRow;
+    aim.addEventListener("click", (e) => {
+      editEntry(aim);
+    });
+    interval.addEventListener("click", () => {
+      editEntry(interval);
+    });
+
+    fragment.appendChild(aimRow);
+  }
+  return fragment;
 };
 
-const createDayLabel = () => {
-  labelList.innerHTML = "";
-  const date = DateTime.local(year, currentMonth);
+const createDaysLabel = (month) => {
+  const fragment = document.createDocumentFragment();
+  const date = DateTime.local(year, month);
   let daysInMonth = date.daysInMonth;
   for (let day = 1; day <= daysInMonth; day++) {
-    const date = DateTime.local(year, currentMonth, day);
+    const date = DateTime.local(year, month, day);
     const weekday = date.weekday;
     const label = document.createElement("div");
     label.classList.add("aim-tracker__day-label");
@@ -109,108 +99,104 @@ const createDayLabel = () => {
       label.classList.add("aim-tracker__day-label--weekend");
     }
     label.setAttribute("data-date", date.toFormat("yyyy-MM-dd"));
-    labelList.append(label);
+    fragment.appendChild(label);
   }
+  return fragment;
 };
 
-const createCheckRow = () => {
-  const date = DateTime.local(year, currentMonth);
-  let daysInMonth = date.daysInMonth;
-  const row = document.createElement("div");
-  row.classList.add("aim-tracker__check-row");
-  row.setAttribute("data-row-id", rowId);
+const createCheckRows = (month, rows = 1) => {
+  const fragment = document.createDocumentFragment();
 
-  for (let day = 1; day <= daysInMonth; day++) {
-    const checkField = document.createElement("div");
-    const date = DateTime.local(year, currentMonth, day);
-    const weekday = date.weekday;
-    checkField.classList.add("aim-tracker__check-field");
-    checkField.setAttribute("data-date", date.toFormat("yyyy-MM-dd"));
-    checkField.setAttribute("data-checked", false);
+  for (let i = 1; i <= rows; i++) {
+    const date = DateTime.local(year, month);
+    let daysInMonth = date.daysInMonth;
+    const row = document.createElement("div");
+    row.classList.add("aim-tracker__check-row", "aim-tracker__check-row--visible");
+    row.setAttribute("data-row-id", rowId);
 
-    if (weekday === 6 || weekday === 7) {
-      checkField.classList.add("aim-tracker__check-field--weekend");
+    for (let day = 1; day <= daysInMonth; day++) {
+      const checkField = document.createElement("div");
+      const date = DateTime.local(year, month, day);
+      const weekday = date.weekday;
+      checkField.classList.add("aim-tracker__check-field");
+      checkField.setAttribute("data-date", date.toFormat("yyyy-MM-dd"));
+      checkField.setAttribute("data-checked", false);
+
+      if (weekday === 6 || weekday === 7) {
+        checkField.classList.add("aim-tracker__check-field--weekend");
+      }
+
+      row.append(checkField);
+
+      checkField.addEventListener("click", (e) => {
+        isChecked = checkField.getAttribute("data-checked") === "true";
+        isChecked = !isChecked;
+        checkField.setAttribute("data-checked", isChecked);
+        if (isChecked) {
+          const icon = document.createElement("i");
+          icon.className = "fa-solid fa-x aim-tracker__checkfield-icon";
+          checkField.appendChild(icon);
+        } else {
+          checkField.innerHTML = "";
+        }
+      });
+
+      fragment.appendChild(row);
     }
+  }
 
-    row.append(checkField);
+  return fragment;
+};
 
-    checkField.addEventListener("click", (e) => {
-      isChecked = checkField.getAttribute("data-checked") === "true";
+const createReviewRows = (rows = 1) => {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 1; i <= rows; i++) {
+    const reviewRow = document.createElement("div");
+    const reviewEval = document.createElement("div");
+    const reviewBounty = document.createElement("div");
+    const reviewChecked = document.createElement("div");
+
+    reviewRow.classList.add("aim-tracker__review-row", "aim-tracker__review-row--visible");
+    reviewRow.setAttribute("data-row-id", rowId);
+
+    reviewEval.classList.add("aim-tracker__review-eval");
+    reviewEval.textContent = " / ";
+
+    reviewBounty.classList.add("aim-tracker__review-bounty");
+    reviewChecked.classList.add("aim-tracker__review-checked");
+    reviewChecked.setAttribute("data-checked", false);
+
+    reviewRow.append(reviewEval);
+    reviewRow.append(reviewBounty);
+    reviewRow.append(reviewChecked);
+
+    reviewEval.addEventListener("click", () => {
+      editEntry(reviewEval, true);
+    });
+
+    reviewBounty.addEventListener("click", () => {
+      editEntry(reviewBounty);
+    });
+
+    reviewChecked.addEventListener("click", () => {
+      isChecked = reviewChecked.getAttribute("data-checked") === "true";
+
       isChecked = !isChecked;
-      checkField.setAttribute("data-checked", isChecked);
+      reviewChecked.setAttribute("data-checked", isChecked);
+
       if (isChecked) {
         const icon = document.createElement("i");
-        icon.className = "fa-solid fa-x aim-tracker__checkfield-icon";
-        checkField.appendChild(icon);
+        icon.className = "fa-solid fa-check aim-tracker__review-check-icon";
+        reviewChecked.appendChild(icon);
       } else {
-        checkField.innerHTML = "";
+        reviewChecked.innerHTML = "";
       }
     });
+
+    fragment.appendChild(reviewRow);
   }
-  return row;
-};
-
-const createReviewRow = () => {
-  const reviewRow = document.createElement("div");
-  const reviewEval = document.createElement("div");
-  const reviewBounty = document.createElement("div");
-  const reviewChecked = document.createElement("div");
-
-  reviewRow.classList.add("aim-tracker__review-row");
-  reviewRow.setAttribute("data-row-id", rowId);
-
-  reviewEval.classList.add("aim-tracker__review-eval");
-  reviewEval.textContent = " / ";
-
-  reviewBounty.classList.add("aim-tracker__review-bounty");
-  reviewChecked.classList.add("aim-tracker__review-checked");
-  reviewChecked.setAttribute("data-checked", false);
-
-  reviewRow.append(reviewEval);
-  reviewRow.append(reviewBounty);
-  reviewRow.append(reviewChecked);
-
-  reviewEval.addEventListener("click", () => {
-    editEntry(reviewEval, true);
-  });
-
-  reviewBounty.addEventListener("click", () => {
-    editEntry(reviewBounty);
-  });
-
-  reviewChecked.addEventListener("click", () => {
-    isChecked = reviewChecked.getAttribute("data-checked") === "true";
-
-    isChecked = !isChecked;
-    reviewChecked.setAttribute("data-checked", isChecked);
-
-    if (isChecked) {
-      const icon = document.createElement("i");
-      icon.className = "fa-solid fa-check aim-tracker__review-check-icon";
-      reviewChecked.appendChild(icon);
-    } else {
-      reviewChecked.innerHTML = "";
-    }
-  });
-
-  return reviewRow;
-};
-
-const addRow = () => {
-  const aimRow = createAimRow();
-  aimsList.appendChild(aimRow);
-
-  const checkRow = createCheckRow();
-  logList.appendChild(checkRow);
-
-  const reviewRow = createReviewRow();
-  reviewList.appendChild(reviewRow);
-
-  setTimeout(() => {
-    aimRow.classList.add("aim-tracker__aim-row--visible");
-    checkRow.classList.add("aim-tracker__check-row--visible");
-    reviewRow.classList.add("aim-tracker__review-row--visible");
-  }, 10);
+  return fragment;
 };
 
 const editEntry = (entry, setCursorToStart) => {
@@ -254,36 +240,71 @@ const editEntry = (entry, setCursorToStart) => {
   });
 };
 
-for (let i = 0; i < 8; i++) {
-  const aimRow = createAimRow();
-  aimsList.appendChild(aimRow);
-  aimRow.classList.add("aim-tracker__aim-row--visible");
-  const checkRow = createCheckRow();
-  logList.appendChild(checkRow);
-  checkRow.classList.add("aim-tracker__check-row--visible");
-  const reviewRow = createReviewRow();
-  reviewList.appendChild(reviewRow);
-  reviewRow.classList.add("aim-tracker__review-row--visible");
-}
+const addRow = () => {
+  const aimRow = createAimRows();
+  aimsContainer.appendChild(aimRow);
 
-createDayLabel();
+  const checkRow = createCheckRows();
+  checkFieldContainer.appendChild(checkRow);
+
+  const reviewRow = createReviewRows();
+  reviewContainer.appendChild(reviewRow);
+
+  setTimeout(() => {
+    aimRow.classList.add("aim-tracker__aim-row--visible");
+    checkRow.classList.add("aim-tracker__check-row--visible");
+    reviewRow.classList.add("aim-tracker__review-row--visible");
+  }, 10);
+};
+
+const init = () => {
+  const aimsFragment = createAimRows(defaultRows);
+  aimsContainer.appendChild(aimsFragment);
+
+  const reviewsFragment = createReviewRows(defaultRows);
+  reviewContainer.appendChild(reviewsFragment);
+  initMonths();
+};
+
+const initMonths = () => {
+  monthsContainer.innerHTML = "";
+
+  for (let i = -2; i <= 2; i++) {
+    const month = document.createElement("div");
+    month.classList.add("aim-tracker__month-container");
+
+    const labelsContainer = document.createElement("div");
+    labelsContainer.classList.add("aim-tracker__labels-container");
+
+    const checkFieldContainer = document.createElement("div");
+    checkFieldContainer.classList.add("aim-tracker__check-field-container");
+
+    const labelsFragment = createDaysLabel((currentMonth + i + 12) % 12);
+    labelsContainer.append(labelsFragment);
+
+    const checkFieldFragment = createCheckRows((currentMonth + i + 12) % 12, defaultRows);
+    checkFieldContainer.appendChild(checkFieldFragment);
+    month.append(labelsContainer, checkFieldContainer);
+    monthsContainer.append(month);
+  }
+};
 
 const checkField = document.querySelector(".aim-tracker__check-field");
 const deleteBtn = document.querySelector(".aim-tracker__delete-btn");
 
 leftArrow.addEventListener("click", () => {
-  scrollAmount = logListWrapper.offsetWidth / 2 - 1.5;
+  scrollAmount = monthsContainer.offsetWidth / 2 - 1.5;
 
-  logListWrapper.scrollBy({
+  monthsContainer.scrollBy({
     left: -scrollAmount,
     behavior: "smooth",
   });
 });
 
 rightArrow.addEventListener("click", () => {
-  scrollAmount = logListWrapper.offsetWidth / 2 - 1.5;
+  scrollAmount = monthsContainer.offsetWidth / 2 - 1.5;
 
-  logListWrapper.scrollBy({
+  monthsContainer.scrollBy({
     left: scrollAmount,
     behavior: "smooth",
   });
@@ -298,12 +319,12 @@ monthPrev.addEventListener("click", () => {
   currentMonth = prevMonth;
   prevMonth = prevMonth - 1;
   createDayLabel();
-  logList.innerHTML = "";
+  checkFieldContainer.innerHTML = "";
   currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
   monthEl.textContent = `${currentMonthName} ${year}`;
   for (let i = 0; i < 8; i++) {
     const checkRow = createCheckRow();
-    logList.appendChild(checkRow);
+    checkFieldContainer.appendChild(checkRow);
     checkRow.classList.add("aim-tracker__check-row--visible");
   }
 });
@@ -313,12 +334,14 @@ monthNext.addEventListener("click", () => {
   currentMonth = nextMonth;
   nextMonth = nextMonth + 1;
   createDayLabel();
-  logList.innerHTML = "";
+  checkFieldContainer.innerHTML = "";
   currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
   monthEl.textContent = `${currentMonthName} ${year}`;
   for (let i = 0; i < 8; i++) {
     const checkRow = createCheckRow();
-    logList.appendChild(checkRow);
+    checkFieldContainer.appendChild(checkRow);
     checkRow.classList.add("aim-tracker__check-row--visible");
   }
 });
+
+init();
