@@ -187,7 +187,7 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.aim-tracker__aim-row--visible {
+.aim-tracker__row--visible {
   opacity: 1;
   transform: scaleY(1);
 }
@@ -269,7 +269,6 @@ body {
 .aim-tracker__month-container {
   display: flex;
   flex-direction: column;
-  height: 500px;
 }
 .aim-tracker__labels-container {
   width: 100%;
@@ -303,7 +302,7 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.aim-tracker__check-row--visible {
+.aim-tracker__row--visible {
   opacity: 1;
   transform: scaleY(1);
 }
@@ -383,7 +382,7 @@ body {
   display: flex;
 }
 
-.aim-tracker__review-row--visible {
+.aim-tracker__row--visible {
   opacity: 1;
   transform: scaleY(1);
 }
