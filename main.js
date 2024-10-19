@@ -8,15 +8,34 @@ const monthEl = document.querySelector(".aim-tracker__month-name");
 const monthPrev = document.querySelector(".aim-tracker__month-nav--prev");
 const monthNext = document.querySelector(".aim-tracker__month-nav--next");
 
+const colors = [
+  { light: "var(--peach-light)", medium: "var(--peach-medium)", dark: "var(--peach-dark)" },
+  { light: "var(--arylide-yellow-light)", medium: "var(--arylide-yellow-medium)", dark: "var(--arylide-yellow-dark)" },
+  { light: "var(--thistle-light)", medium: "var(--thistle-medium)", dark: "var(--thistle-dark)" },
+  { light: "var(--apricot-light)", medium: "var(--apricot-medium)", dark: "var(--apricot-dark)" },
+  { light: "var(--non-photo-blue-light)", medium: "var(--non-photo-blue-medium)", dark: "var(--non-photo-blue-dark)" },
+  { light: "var(--thistle-2-light)", medium: "var(--thistle-2-medium)", dark: "var(--thistle-2-dark)" },
+  { light: "var(--light-green-light)", medium: "var(--light-green-medium)", dark: "var(--light-green-dark)" },
+  { light: "var(--apricot-2-light)", medium: "var(--apricot-2-medium)", dark: "var(--apricot-2-dark)" },
+  {
+    light: "var(--columbia-blue-2-light)",
+    medium: "var(--columbia-blue-2-medium)",
+    dark: "var(--columbia-blue-2-dark)",
+  },
+  { light: "var(--ash-gray-light)", medium: "var(--ash-gray-medium)", dark: "var(--ash-gray-dark)" },
+  { light: "var(--french-gray-light)", medium: "var(--french-gray-medium)", dark: "var(--french-gray-dark)" },
+  { light: "var(--fairy-tale-light)", medium: "var(--fairy-tale-medium)", dark: "var(--fairy-tale-dark)" },
+];
+
 const DateTime = luxon.DateTime;
 
 const date = DateTime.now().setLocale("de");
 const year = date.year;
 let currentMonth = date.month;
-
-let prevMonth = date.minus({ month: 1 }).month;
-let nextMonth = date.plus({ month: 1 }).month;
 let currentMonthName = date.toFormat("LLLL");
+
+let newDate = DateTime.local(2024, 1, 1);
+console.log(newDate.toString());
 
 const defaultRows = 8;
 let totalRows = 0;
@@ -258,7 +277,6 @@ const init = () => {
     reviewRow.classList.add("aim-tracker__row--visible");
     reviewContainer.appendChild(reviewRow);
   }
-  console.log(totalRows);
   initMonths();
 };
 
@@ -268,6 +286,13 @@ const initMonths = () => {
   for (let i = -2; i <= 2; i++) {
     const month = document.createElement("div");
     month.classList.add("aim-tracker__month-container");
+    month.style.backgroundColor = colors[i + 2].light;
+
+    const monthIndex = ((currentMonth + i - 1 + 12) % 12) + 1;
+
+    console.log(DateTime.local(year, monthIndex).toFormat("LLLL"));
+    console.log(year + " - " + monthIndex);
+    month.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat('LLLL'))
 
     const labelsContainer = document.createElement("div");
     labelsContainer.classList.add("aim-tracker__labels-container");
@@ -275,11 +300,11 @@ const initMonths = () => {
     const checkFieldContainer = document.createElement("div");
     checkFieldContainer.classList.add("aim-tracker__check-field-container");
 
-    const labelsFragment = createDaysLabel((currentMonth + i + 12) % 12);
+    const labelsFragment = createDaysLabel(monthIndex);
     labelsContainer.append(labelsFragment);
 
     for (let row = 1; row <= defaultRows; row++) {
-      const checkRow = createCheckRow((currentMonth + i + 12) % 12, row);
+      const checkRow = createCheckRow(monthIndex, row);
       checkRow.classList.add("aim-tracker__row--visible");
       checkFieldContainer.appendChild(checkRow);
     }
@@ -314,34 +339,20 @@ addBtn.addEventListener("click", () => {
   addRow();
 });
 
-monthPrev.addEventListener("click", () => {
-  nextMonth = currentMonth;
-  currentMonth = prevMonth;
-  prevMonth = prevMonth - 1;
-  createDayLabel();
-  checkFieldContainer.innerHTML = "";
-  currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
-  monthEl.textContent = `${currentMonthName} ${year}`;
-  for (let i = 0; i < 8; i++) {
-    const checkRow = createCheckRow();
-    checkFieldContainer.appendChild(checkRow);
-    checkRow.classList.add("aim-tracker__row--visible");
-  }
-});
-
-monthNext.addEventListener("click", () => {
-  prevMonth = currentMonth;
-  currentMonth = nextMonth;
-  nextMonth = nextMonth + 1;
-  createDayLabel();
-  checkFieldContainer.innerHTML = "";
-  currentMonthName = DateTime.local(year, currentMonth).setLocale("de").toFormat("LLLL");
-  monthEl.textContent = `${currentMonthName} ${year}`;
-  for (let i = 0; i < 8; i++) {
-    const checkRow = createCheckRow();
-    checkFieldContainer.appendChild(checkRow);
-    checkRow.classList.add("aim-tracker__row--visible");
-  }
-});
-
 init();
+
+
+
+const months = document.querySelectorAll('.aim-tracker__month-container');
+console.log(monthsContainer.offsetWidth);
+console.log(months[0].offsetWidth);
+
+
+/*
+const monthWidth = monthsContainer.children[0].getBoundingClientRect().width;
+monthsContainer.style.transform = `translateX(-${ monthWidth}px)`;
+*/
+
+monthPrev.addEventListener("click", () => {});
+
+monthNext.addEventListener("click", () => {});

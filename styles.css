@@ -38,13 +38,69 @@ h6 {
 
 :root {
   /* CSS HSL */
-  --tiffany-blue: #98d2c1;
+   --peach-light: hsl(29, 89%, 78%);
+  --peach-medium: hsl(29, 89%, 58%);
+  --peach-dark: hsl(29, 89%, 48%);
+  
+  --arylide-yellow-light: hsl(51, 84%, 66%);
+  --arylide-yellow-medium: hsl(51, 84%, 56%);
+  --arylide-yellow-dark: hsl(51, 84%, 46%);
+  
+  --thistle-light: hsl(263, 51%, 88%);
+  --thistle-medium: hsl(263, 51%, 68%);
+  --thistle-dark: hsl(263, 51%, 58%);
+  
+  --apricot-light: hsl(22, 79%, 81%);
+  --apricot-medium: hsl(22, 79%, 61%);
+  --apricot-dark: hsl(22, 79%, 51%);
+  
+  --non-photo-blue-light: hsl(192, 58%, 75%);
+  --non-photo-blue-medium: hsl(192, 58%, 55%);
+  --non-photo-blue-dark: hsl(192, 58%, 45%);
+  
+  --thistle-2-light: #e0c8e0;
+  --thistle-2-medium: hsl(300, 21%, 68%);
+  --thistle-2-dark: hsl(300, 21%, 58%);
+  
+  --light-green-light: hsl(102, 54%, 72%);
+  --light-green-medium: hsl(102, 54%, 52%);
+  --light-green-dark: hsl(102, 54%, 42%);
+  
+  --apricot-2-light: hsl(18, 84%, 80%);
+  --apricot-2-medium: hsl(18, 84%, 60%);
+  --apricot-2-dark: hsl(18, 84%, 50%);
+  
+  --columbia-blue-2-light: hsla(207, 34%, 79%, 1);
+  --columbia-blue-2-medium: hsla(207, 34%, 59%, 1);
+  --columbia-blue-2-dark: hsla(207, 34%, 49%, 1);
+  
+  --ash-gray-light: hsla(137, 17%, 80%, 1);
+  --ash-gray-medium: hsla(137, 17%, 60%, 1);
+  --ash-gray-dark: hsla(137, 17%, 50%, 1);
+  
+  --french-gray-light: hsla(243, 23%, 82%, 1);
+  --french-gray-medium: hsla(243, 23%, 62%, 1);
+  --french-gray-dark: hsla(243, 23%, 52%, 1);
+  
+  --fairy-tale-light: hsl(331, 77%, 88%);
+  --fairy-tale-medium: hsl(331, 77%, 68%);
+  --fairy-tale-dark: hsl(331, 77%, 58%);
+
+  --tiffany-blue-light: hsl(162, 39%, 71%);
+  --tiffany-blue-medium: hsl(162, 39%, 51%);
+  --tiffany-blue-dark: hsl(162, 39%, 41%);
+
+  --columbia-blue-light: hsl(206, 47%, 83%);
+  --columbia-blue-medium: hsl(206, 47%, 63%);
+  --columbia-blue-dark: hsl(206, 47%, 53%);
+
+/*
   --tiffan-blue-darker: #71c1a9;
-  --apricot: #f5c4a8;
+  --apricot: hsl(22, 79%, 81%);
   --apricot-darker: #F2B591;
   --apricot-dark: #EC905B;
-  --columbia-blue: #bfd6e8;
   --columbia-blue-darker: #96bcd9;
+*/
   --grey: #888;
   --grey-dark: #333;
   --grey-light: #eee;
@@ -54,18 +110,8 @@ h6 {
   --black: #1E2952;
   --red: #FF4F00;
 
-  --arylide-yellow: hsla(51, 84%, 66%, 1);
-  --thistle: hsla(263, 52%, 88%, 1);
-  --peach: hsla(29, 89%, 78%, 1);
-  --non-photo-blue: hsla(192, 58%, 75%, 1);
-  --thistle-2: hsla(300, 28%, 83%, 1);
-  --light-green: hsla(102, 54%, 72%, 1);
-  --apricot-2: hsla(18, 84%, 80%, 1);
-
-  --ash-gray: hsla(137, 17%, 80%, 1);
-  --columbia-blue-2: hsla(207, 34%, 79%, 1);
-  --french-gray: hsla(243, 23%, 82%, 1);
-  --fairy-tale: hsla(331, 77%, 88%, 1);
+ 
+  
   --rowHeight: 3.6rem;
 }
 
@@ -138,7 +184,7 @@ body {
 /* Aim column styles */
 
 .aim-tracker__column--aims {
-  background-color: var(--tiffany-blue);
+  background-color: var(--tiffany-blue-light);
   display: flex;
   flex-direction: column;
   padding-right: 0;
@@ -223,7 +269,7 @@ body {
 
 .aim-tracker__aim-row:hover .aim-tracker__aim,
 .aim-tracker__aim-row:hover .aim-tracker__interval {
-  background-color: var(--tiffan-blue-darker);
+  background-color: var(--tiffany-blue-medium);
 }
 
 .aim-tracker__aim-row:hover .aim-tracker__delete-btn {
@@ -233,14 +279,12 @@ body {
 /* Log columen styles */
 
 .aim-tracker__column--log {
-  background-color: var(--apricot);
+  background-color: var(--apricot-light);
   display: flex;
   flex-direction: column;
   padding-left: 0;
   padding-right: 0;
 }
-
-
 
 .aim-tracker__month-nav--prev,
 .aim-tracker__month-nav--next {
@@ -258,20 +302,22 @@ body {
 .aim-tracker__log-container {
   display: flex;
   align-items: center;
+  border: 2px solid red;
 }
 
 .aim-tracker__months-container {
   overflow-x: hidden;
-  flex: 1;
   display: flex;
+  
 }
 
 .aim-tracker__month-container {
   display: flex;
   flex-direction: column;
+ 
 }
+
 .aim-tracker__labels-container {
-  width: 100%;
   justify-content: flex-start;
   display: flex;
   align-items: flex-end;
@@ -281,7 +327,7 @@ body {
   font-size: 1.2rem;
   color: var(--grey);
   font-weight: 300;
-  width: calc((100% - 0.2rem) / 14);
+  /*width: calc((100% - 0.2rem) / 14);*/
   height: var(--rowHeight);
   padding-bottom: 0.5rem;
   flex-shrink: 0;
@@ -290,10 +336,6 @@ body {
   justify-content: center;
 }
 
-.aim-tracker__check-field-container {
-  display: flex;
-  flex-direction: column;
-}
 .aim-tracker__check-row {
   display: flex;
   margin-bottom: 1rem;
@@ -308,8 +350,8 @@ body {
 }
 
 .aim-tracker__check-field {
-  width: calc((100% - 0.2rem) / 14);
-  flex-shrink: 0;
+  /*width: calc((100% - 0.2rem) / 14);*/
+  flex: 1 0 auto;
   height: var(--rowHeight);
   border-left: 1px solid var(--grey-light);
   border-top: 1px solid var(--grey-light);
@@ -317,9 +359,15 @@ body {
   cursor: pointer;
 }
 
+.aim-tracker__day-label, .aim-tracker__check-field {
+  width: calc(100% / 14) ;
+  width: 3rem;
+}
+
 .aim-tracker__check-field:last-child {
   border-right: 1px solid var(--grey-light);
 }
+
 
 .aim-tracker__day-label--weekend {
   color: var(--grey-dark);
@@ -327,7 +375,7 @@ body {
 }
 
 .aim-tracker__check-field--weekend {
-  background-color: var(--apricot-darker);
+  background-color: var(--apricot-medium);
 }
 
 .aim-tracker__check-field:hover {
@@ -340,7 +388,7 @@ body {
 
 /* Review column styles */
 .aim-tracker__column--review {
-  background-color: var(--columbia-blue);
+  background-color: var(--columbia-blue-light);
 }
 .aim-tracker__review-label-wrapper {
   display: flex;
@@ -427,7 +475,7 @@ body {
 }
 .aim-tracker__review-row:hover {
   color: var(--grey-light);
-  background-color: var(--columbia-blue-darker);
+  background-color: var(--columbia-blue-medium);
 }
 
 /* Button styles */
