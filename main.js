@@ -284,38 +284,15 @@ const initMonths = () => {
 
   for (let i = -2; i <= 2; i++) {
     const monthIndex = ((currentMonth + i - 1 + 12) % 12) + 1;
-
-    /*
-    const month = document.createElement("div");
-    month.classList.add("aim-tracker__month-container");
-
-    month.style.backgroundColor = colors[monthIndex - 1].light;
-    month.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat("LLLL"));
-
-    const labelsContainer = document.createElement("div");
-    labelsContainer.classList.add("aim-tracker__labels-container");
-
-    const checkFieldContainer = document.createElement("div");
-    checkFieldContainer.classList.add("aim-tracker__check-field-container");
-
-    const labelsFragment = createDaysLabel(monthIndex);
-    labelsContainer.append(labelsFragment);
-
-    for (let row = 1; row <= defaultRows; row++) {
-      const checkRow = createCheckRow(monthIndex, row);
-      checkRow.classList.add("aim-tracker__row--visible");
-      checkFieldContainer.appendChild(checkRow);
-    }
-
-    month.append(labelsContainer, checkFieldContainer);
-    */
     const monthEl = createMonthElement(monthIndex);
-
     monthsWrapper.append(monthEl);
   }
-
   const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
+  let wrapperRect = monthsWrapper.getBoundingClientRect();
+  console.log(`Before - monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
   monthsWrapper.style.transform = `translateX(-${monthWidth}px)`;
+  wrapperRect = monthsWrapper.getBoundingClientRect();
+  console.log(`After - monthsWrapper.X: ${wrapperRect.x}`);
   updateCurrentMonthClass();
 };
 
@@ -348,6 +325,11 @@ const createMonthElement = (monthIndex) => {
 
 init();
 
+ const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
+ let wrapperRect = monthsWrapper.getBoundingClientRect();
+ console.log(`monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
+
+/*
 const months = document.querySelectorAll(".aim-tracker__month-container");
 console.log("monthsContainer: " + monthsContainer.offsetWidth);
 console.log("monthsWrapper: " + monthsWrapper.offsetWidth);
@@ -355,19 +337,30 @@ console.log("monthsWrapper: " + monthsWrapper.offsetWidth);
 months.forEach((month, index) => {
   console.log(index + ". Month: " + month.offsetWidth);
 });
+*/
 
 function scrollMonths(direction) {
-  const months = monthsWrapper.children
-  console.log(months);
+   const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
+   let wrapperRect = monthsWrapper.getBoundingClientRect();
+   console.log(`scroll - monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
+  const months = [...monthsWrapper.children];
+  months.forEach((month, index) => {
+    const rect = month.getBoundingClientRect();
+    console.log(index + "1. x: " + rect.x + " width: " + rect.width );
+  });
   
 
   if (direction === "next") {
     const width = months[0].offsetWidth + months[1].offsetWidth + months[2].offsetWidth;
-    console.log(width);
+    let wrapperRect = monthsWrapper.getBoundingClientRect();
+    console.log(`Before: width: ${width}, monthsWrapper.X: ${wrapperRect.x}`);
     [currentMonth, year] = currentMonth + 1 > 12 ? [1, year + 1] : [currentMonth + 1, year];
     let date = DateTime.local(year, currentMonth).setLocale("de");
     monthEl.textContent = `${date.toFormat('LLLL')} ${year}`;
     monthsWrapper.style.transform = `translateX(-${width}px)`;
+    wrapperRect = monthsWrapper.getBoundingClientRect();
+    console.log(`After: width: ${width}, monthsWrapper.X: ${wrapperRect.x}`);
+
   } else {
     const width = document.querySelector('.aim-tracker__current-month').offsetWidth;
     console.log(width);
