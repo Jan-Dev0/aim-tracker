@@ -9,6 +9,8 @@ const monthEl = document.querySelector(".aim-tracker__month-name");
 const prevMonth = document.querySelector(".aim-tracker__month-nav--prev");
 const nextMonth = document.querySelector(".aim-tracker__month-nav--next");
 
+
+
 const colors = [
   { light: "var(--peach-light)", medium: "var(--peach-medium)", dark: "var(--peach-dark)" },
   { light: "var(--arylide-yellow-light)", medium: "var(--arylide-yellow-medium)", dark: "var(--arylide-yellow-dark)" },
@@ -288,11 +290,7 @@ const initMonths = () => {
     monthsWrapper.append(monthEl);
   }
   const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
-  let wrapperRect = monthsWrapper.getBoundingClientRect();
-  console.log(`Before - monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
-  monthsWrapper.style.transform = `translateX(-${monthWidth}px)`;
-  wrapperRect = monthsWrapper.getBoundingClientRect();
-  console.log(`After - monthsWrapper.X: ${wrapperRect.x}`);
+ monthsWrapper.style.transform = `translateX(-${monthWidth}px)`;
   updateCurrentMonthClass();
 };
 
@@ -325,45 +323,22 @@ const createMonthElement = (monthIndex) => {
 
 init();
 
- const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
- let wrapperRect = monthsWrapper.getBoundingClientRect();
- console.log(`monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
-
-/*
-const months = document.querySelectorAll(".aim-tracker__month-container");
-console.log("monthsContainer: " + monthsContainer.offsetWidth);
-console.log("monthsWrapper: " + monthsWrapper.offsetWidth);
-
-months.forEach((month, index) => {
-  console.log(index + ". Month: " + month.offsetWidth);
-});
-*/
 
 function scrollMonths(direction) {
    const monthWidth = monthsWrapper.children[0].offsetWidth + monthsWrapper.children[1].offsetWidth;
-   let wrapperRect = monthsWrapper.getBoundingClientRect();
-   console.log(`scroll - monthsWrapper.X: ${wrapperRect.x}, width: ${monthWidth}`);
   const months = [...monthsWrapper.children];
-  months.forEach((month, index) => {
-    const rect = month.getBoundingClientRect();
-    console.log(index + "1. x: " + rect.x + " width: " + rect.width );
-  });
   
-
   if (direction === "next") {
     const width = months[0].offsetWidth + months[1].offsetWidth + months[2].offsetWidth;
-    let wrapperRect = monthsWrapper.getBoundingClientRect();
-    console.log(`Before: width: ${width}, monthsWrapper.X: ${wrapperRect.x}`);
+    
     [currentMonth, year] = currentMonth + 1 > 12 ? [1, year + 1] : [currentMonth + 1, year];
     let date = DateTime.local(year, currentMonth).setLocale("de");
     monthEl.textContent = `${date.toFormat('LLLL')} ${year}`;
     monthsWrapper.style.transform = `translateX(-${width}px)`;
-    wrapperRect = monthsWrapper.getBoundingClientRect();
-    console.log(`After: width: ${width}, monthsWrapper.X: ${wrapperRect.x}`);
 
   } else {
     const width = document.querySelector('.aim-tracker__current-month').offsetWidth;
-    console.log(width);
+    
     [currentMonth, year] = currentMonth - 1 < 1 ? [12, year - 1] : [currentMonth - 1, year];
     let date = DateTime.local(year, currentMonth).setLocale("de");
     monthEl.textContent = `${date.toFormat('LLLL')} ${year}`;
@@ -396,7 +371,7 @@ function scrollMonths(direction) {
       monthsWrapper.style.transition = "transform 0.5s ease";
       enableButtons();
     }, 50);
-  }, 1500);
+  }, 300);
 }
 
 function updateCurrentMonthClass() {
@@ -422,19 +397,12 @@ addBtn.addEventListener("click", () => {
 });
 
 leftBtn.addEventListener("click", () => {
-  const currentRect = monthsWrapper.getBoundingClientRect();
-  console.log(`Before Move - x: ${currentRect.x} y: ${currentRect.y}`);
-  monthsWrapper.style.transform = `translateX(100px)`;
-  const updatedRect = monthsWrapper.getBoundingClientRect();
-  console.log(`After Move - x: ${updatedRect.x} y: ${updatedRect.y}`);
+
+  monthsWrapper.style.transform += `translateX(42rem)`;
 });
 
 rightBtn.addEventListener("click", () => {
-  const currentRect = monthsWrapper.getBoundingClientRect();
-  console.log(`Before Move - x: ${currentRect.x} y: ${currentRect.y}`);
-  monthsWrapper.style.transform = `translateX(-100px)`;
-  const updatedRect = monthsWrapper.getBoundingClientRect();
-  console.log(`After Move - x: ${updatedRect.x} y: ${updatedRect.y}`);
+  monthsWrapper.style.transform += `translateX(-42rem)`;
 });
 
 prevMonth.addEventListener("click", () => scrollMonths("prev"));
