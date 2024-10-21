@@ -14,13 +14,13 @@ const colors = [
   { light: "var(--non-photo-blue-light)", medium: "var(--non-photo-blue-medium)", dark: "var(--non-photo-blue-dark)" },
   { light: "var(--thistle-2-light)", medium: "var(--thistle-2-medium)", dark: "var(--thistle-2-dark)" },
   { light: "var(--light-green-light)", medium: "var(--light-green-medium)", dark: "var(--light-green-dark)" },
-  { light: "var(--apricot-2-light)", medium: "var(--apricot-2-medium)", dark: "var(--apricot-2-dark)" },
   {
     light: "var(--columbia-blue-2-light)",
     medium: "var(--columbia-blue-2-medium)",
     dark: "var(--columbia-blue-2-dark)",
   },
   { light: "var(--ash-gray-light)", medium: "var(--ash-gray-medium)", dark: "var(--ash-gray-dark)" },
+  { light: "var(--apricot-2-light)", medium: "var(--apricot-2-medium)", dark: "var(--apricot-2-dark)" },
   { light: "var(--french-gray-light)", medium: "var(--french-gray-medium)", dark: "var(--french-gray-dark)" },
   { light: "var(--fairy-tale-light)", medium: "var(--fairy-tale-medium)", dark: "var(--fairy-tale-dark)" },
 ];
@@ -28,12 +28,13 @@ const colors = [
 const DateTime = luxon.DateTime;
 
 const date = DateTime.now().setLocale("de");
+
 let year = date.year;
 let currentMonth = date.month;
 let currentMonthName = date.toFormat("LLLL");
 
 const defaultRows = 8;
-let totalRows = 0;
+let totalRows = defaultRows;
 
 monthEl.textContent = `${currentMonthName} ${year}`;
 
@@ -64,6 +65,7 @@ const createAimRow = (rowNumber) => {
   aimRow.append(deleteBtn, aim, interval, arrowWrapper);
 
   deleteBtn.addEventListener("click", (e) => {
+    console.log("delete: " + totalRows);
     const id = deleteBtn.getAttribute("data-row-id");
     const aimRow = document.querySelector(`.aim-tracker__aim-row[data-row-id="${id}"]`);
     const reviewRow = document.querySelector(`.aim-tracker__review-row[data-row-id="${id}"]`);
@@ -113,7 +115,6 @@ const createDaysLabel = (month) => {
 };
 
 const createCheckRow = (month, rowNumber) => {
-  console.log("createCheckRow");
   const date = DateTime.local(year, month);
   let daysInMonth = date.daysInMonth;
   const row = document.createElement("div");
@@ -130,13 +131,13 @@ const createCheckRow = (month, rowNumber) => {
     checkField.setAttribute("data-checked", false);
 
     if (weekday === 6 || weekday === 7) {
+      //console.log("weekend");
       checkField.classList.add("aim-tracker__check-field--weekend");
       checkField.style.backgroundColor = colors[month - 1].medium;
     }
 
-    row.append(checkField);
-
     checkField.addEventListener("click", (e) => {
+      console.log("check");
       let isChecked = checkField.getAttribute("data-checked") === "true";
       isChecked = !isChecked;
       checkField.setAttribute("data-checked", isChecked);
@@ -148,6 +149,7 @@ const createCheckRow = (month, rowNumber) => {
         checkField.innerHTML = "";
       }
     });
+    row.append(checkField);
   }
 
   return row;
@@ -199,6 +201,150 @@ const createReviewRow = (rowNumber) => {
   return reviewRow;
 };
 
+const init = () => {
+  for (let row = 1; row <= totalRows; row++) {
+    const aimRow = createAimRow(row);
+    aimRow.classList.add("aim-tracker__row--visible");
+    aimsContainer.appendChild(aimRow);
+
+    const reviewRow = createReviewRow(row);
+    reviewRow.classList.add("aim-tracker__row--visible");
+    reviewContainer.appendChild(reviewRow);
+  }
+};
+
+const initMonths = () => {
+  let slides = [];
+
+  for (let i = -1; i <= 1; i++) {
+    const monthIndex = ((currentMonth + i - 1 + 12) % 12) + 1;
+    const monthEl = createMonthElement(monthIndex);
+    slides.push(monthEl);
+  }
+  //updateCurrentMonthClass();
+  return slides;
+};
+
+const createMonthElement = (monthIndex) => {
+  const monthContainerWrapper = document.createElement("div");
+  monthContainerWrapper.style.backgroundColor = colors[monthIndex - 1].light;
+  monthContainerWrapper.classList.add("aim-tracker__month-container-wrapper");
+  monthContainerWrapper.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat("LLLL"));
+  const monthContainer = document.createElement("div");
+  monthContainer.classList.add("aim-tracker__month-container");
+
+  monthContainer.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat("LLLL"));
+
+  const labelsContainer = document.createElement("div");
+  labelsContainer.classList.add("aim-tracker__labels-container");
+
+  const checkFieldContainer = document.createElement("div");
+  checkFieldContainer.classList.add("aim-tracker__check-field-container");
+
+  const labelsFragment = createDaysLabel(monthIndex);
+  labelsContainer.append(labelsFragment);
+
+  for (let row = 1; row <= totalRows; row++) {
+    const checkRow = createCheckRow(monthIndex, row);
+    checkRow.classList.add("aim-tracker__row--visible");
+    checkFieldContainer.appendChild(checkRow);
+  }
+
+  monthContainer.append(labelsContainer, checkFieldContainer);
+  monthContainerWrapper.append(monthContainer);
+  return monthContainerWrapper;
+};
+
+init();
+
+const addRow = () => {
+  console.log("addRow: " + totalRows);
+  console.log("-----------------------------");
+  totalRows++;
+  console.log("totalRows++ " + totalRows);
+  const aimRow = createAimRow(totalRows);
+  aimsContainer.appendChild(aimRow);
+
+  const reviewRow = createReviewRow(totalRows);
+  reviewContainer.appendChild(reviewRow);
+
+  const months = document.querySelectorAll(".aim-tracker__month-container");
+  months.forEach((month, index) => {
+    const checkFieldContainer = month.querySelector(".aim-tracker__check-field-container");
+    const monthIndex = normalizeMonth(currentMonth + index - 1);
+    const newCheckRow = createCheckRow(monthIndex, totalRows);
+    checkFieldContainer.appendChild(newCheckRow);
+  });
+
+  setTimeout(() => {
+    const newCheckRows = document.querySelectorAll(`.aim-tracker__check-row[data-row-id="${totalRows}"]`);
+    [aimRow, reviewRow, ...newCheckRows].forEach((row) => row.classList.add("aim-tracker__row--visible"));
+  }, 100);
+};
+
+
+const swiper = new Swiper(".swiper", {
+  speed: 800,
+  slidesPerView: 1,
+  centeredSlides: true,
+  direction: "horizontal",
+  loop: false,
+  grapCurosr: true,
+  initialSlide: 1,
+  cache: false,
+  touchStartPreventDefault: false,
+  passiveListeners: false,
+  simulateTouch: false,
+  preventClicks: false,
+  preventClicksPropagation: false,
+  allowTouchMove: false,
+  virtual: {
+    enabled: true,
+  },
+  virtual: {
+    slides: (function () {
+      return initMonths();
+    })(),
+    renderSlide: function (slideContent, index) {
+      const contentArray = Array.isArray(slideContent) ? slideContent : [slideContent];
+      const slideContentString = contentArray.map((div) => div.outerHTML).join("");
+      return `<div class="swiper-slide" data-swiper-slide-index="${index}">${slideContentString}</div>`;
+    },
+  },
+});
+
+swiper.on("transitionEnd", () => {
+  updateMonthSlides(swiper);
+});
+
+
+function updateMonthSlides(swiper) {
+  const activeIndex = swiper.activeIndex;
+  const slides = swiper.virtual.slides;
+  if (activeIndex === 0) {
+    const newMonth = createMonthElement(normalizeMonth(currentMonth - 1));
+    swiper.virtual.prependSlide(newMonth);
+    swiper.slideTo(1);
+    //swiper.activeIndex = 1;
+  } else if (activeIndex === slides.length - 1) {
+    const newMonth = createMonthElement(normalizeMonth(currentMonth + 1));
+    swiper.virtual.appendSlide(newMonth);
+  }
+}
+
+function updateCurrentMonthClass() {
+  const months = document.querySelectorAll(".aim-tracker__month-container-wrapper");
+  for (let i = 0; i < months.length; i++) {
+    months[i].classList.remove("aim-tracker__current-month");
+  }
+  months[1].classList.add("aim-tracker__current-month");
+}
+
+function normalizeMonth(month) {
+  // Adjust month to be in the range of 1-12
+  return ((((month - 1) % 12) + 12) % 12) + 1;
+}
+
 const editEntry = (entry, setCursorToStart) => {
   const currentText = entry.textContent;
   const input = document.createElement("input");
@@ -240,125 +386,32 @@ const editEntry = (entry, setCursorToStart) => {
   });
 };
 
-const addRow = () => {
-  totalRows++;
-
-  const aimRow = createAimRow(totalRows);
-  aimsContainer.appendChild(aimRow);
-
-  const reviewRow = createReviewRow(totalRows);
-  reviewContainer.appendChild(reviewRow);
-
-  const months = document.querySelectorAll(".aim-tracker__month-container");
-  months.forEach((month, index) => {
-    const checkFieldContainer = month.querySelector(".aim-tracker__check-field-container");
-    const monthIndex = (currentMonth + index - 2 + 12) % 12;
-    const newCheckRow = createCheckRow(monthIndex, totalRows);
-    checkFieldContainer.appendChild(newCheckRow);
-  });
-
-  setTimeout(() => {
-    const newCheckRows = document.querySelectorAll(`.aim-tracker__check-row[data-row-id="${totalRows}"]`);
-    [aimRow, reviewRow, ...newCheckRows].forEach((row) => row.classList.add("aim-tracker__row--visible"));
-  }, 100);
-};
-
-const init = () => {
-  console.log("init");
-  for (let row = 1; row <= defaultRows; row++) {
-    totalRows++;
-    const aimRow = createAimRow(row);
-    aimRow.classList.add("aim-tracker__row--visible");
-    aimsContainer.appendChild(aimRow);
-
-    const reviewRow = createReviewRow(row);
-    reviewRow.classList.add("aim-tracker__row--visible");
-    reviewContainer.appendChild(reviewRow);
-  }
-  initMonths();
-};
-
-const initMonths = () => {
-  console.log("initMonths");
-  monthsContainer.innerHTML = "";
-
-  for (let i = -2; i <= 2; i++) {
-    const monthIndex = ((currentMonth + i - 1 + 12) % 12) + 1;
-    const monthEl = createMonthElement(monthIndex);
-    monthsContainer.append(monthEl);
-  }
-  updateCurrentMonthClass();
-};
-
-const createMonthElement = (monthIndex) => {
-  console.log("createMonthElement");
-  const monthContainerWrapper = document.createElement('div');
-  monthContainerWrapper.style.backgroundColor = colors[monthIndex - 1].light;
-  monthContainerWrapper.classList.add('aim-tracker__month-container-wrapper', 'swiper-slide');
-  const monthContainer = document.createElement("div");
-  monthContainer.classList.add("aim-tracker__month-container");
-
- 
-  monthContainer.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat("LLLL"));
-
-  const labelsContainer = document.createElement("div");
-  labelsContainer.classList.add("aim-tracker__labels-container");
-
-  const checkFieldContainer = document.createElement("div");
-  checkFieldContainer.classList.add("aim-tracker__check-field-container");
-
-  const labelsFragment = createDaysLabel(monthIndex);
-  labelsContainer.append(labelsFragment);
-
-  for (let row = 1; row <= defaultRows; row++) {
-    const checkRow = createCheckRow(monthIndex, row);
-    checkRow.classList.add("aim-tracker__row--visible");
-    checkFieldContainer.appendChild(checkRow);
-  }
-
-  monthContainer.append(labelsContainer, checkFieldContainer);
-  monthContainerWrapper.append(monthContainer);
-  return monthContainerWrapper;
-};
-
-init();
-
-const swiper = new Swiper(".swiper", {
-  slidesPerView: 1,
-  centeredSlides: true,
-  direction: "horizontal",
-  loop: true,
-  grapCurosr: true,
-  initialSlide: 2,
-});
-
-function updateCurrentMonthClass() {
-  console.log("updetCurrentMonthClass");
-  const months = document.querySelectorAll('.aim-tracker__month-container');
-  for (let i = 0; i < months.length; i++) {
-    console.log
-    months[i].classList.remove("aim-tracker__current-month");
-  }
-  months[2].classList.add("aim-tracker__current-month");
-}
-
 addBtn.addEventListener("click", () => {
   addRow();
 });
 
-prevMonth.addEventListener("click", () => {
+prevMonth.addEventListener("click", (e) => {
+  console.log("prev: " + totalRows);
   [currentMonth, year] = currentMonth - 1 < 1 ? [12, year - 1] : [currentMonth - 1, year];
   let date = DateTime.local(year, currentMonth).setLocale("de");
   monthEl.textContent = `${date.toFormat("LLLL")} ${year}`;
-  updateCurrentMonthClass();
+
   swiper.slidePrev();
+  updateCurrentMonthClass();
 });
-nextMonth.addEventListener("click", () => {
+nextMonth.addEventListener("click", (e) => {
+  console.log("next: " + totalRows);
   [currentMonth, year] = currentMonth + 1 > 12 ? [1, year + 1] : [currentMonth + 1, year];
   let date = DateTime.local(year, currentMonth).setLocale("de");
   monthEl.textContent = `${date.toFormat("LLLL")} ${year}`;
-  updateCurrentMonthClass();
   swiper.slideNext();
+  updateCurrentMonthClass();
 });
 
 
+document.querySelectorAll(".check-field").forEach((field) => {
+  field.addEventListener("click", function (event) {
+    // Dein Code für den Click
+    console.log("CheckField clicked");
+  });
+});
