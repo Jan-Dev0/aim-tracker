@@ -6,6 +6,7 @@
 }
 * {
   margin: 0;
+  padding: 0;
 }
 body {
   line-height: 1.5;
@@ -163,8 +164,13 @@ body {
 
 /* Column styles */
 .aim-tracker__column {
-  padding: 3.2rem;
   border-radius: 5px;
+  padding-top: 3.2rem;
+  padding-bottom: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
 }
 .aim-tracker__column-title {
   text-align: center;
@@ -175,8 +181,6 @@ body {
 
 .aim-tracker__column--aims {
   background-color: var(--tiffany-blue-light);
-  display: flex;
-  flex-direction: column;
   padding-right: 0;
   padding-left: 0;
 }
@@ -266,12 +270,10 @@ body {
 
 /* Log columen styles */
 
-.aim-tracker__column--log {
+.aim-tracker__column--logs {
   background-color: var(--apricot-light);
   display: flex;
-  flex-direction: column;
-  padding-left: 0;
-  padding-right: 0;
+  position: relative;
 }
 
 .aim-tracker__month-name {
@@ -291,20 +293,12 @@ body {
   border: 1px solid var(--grey);
 }
 
-.aim-tracker__log-container {
+.aim-tracker__months-container {
   display: flex;
   align-items: center;
-  border: 2px solid red;
-}
-
-.aim-tracker__months-container {
   overflow-x: hidden;
-  scroll-behavior: smooth;
 }
 
-.aim-tracker__months-wrapper {
-  display: flex;
-}
 .aim-tracker__month-container {
   display: flex;
   flex-direction: column;
@@ -379,8 +373,10 @@ body {
 }
 
 /* Review column styles */
-.aim-tracker__column--review {
+.aim-tracker__column--reviews {
   background-color: var(--columbia-blue-light);
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
 }
 .aim-tracker__review-label-wrapper {
   display: flex;
@@ -475,14 +471,28 @@ body {
   font-size: 2.4rem;
   cursor: pointer;
   transition: transform 0.3s ease;
+  position: absolute;
+  top: 50%;
+  z-index: 9999;
 }
 
 .aim-tracker__nav-arrow--left {
-  padding-right: 0.8rem;
+  left: 0;
 }
 
 .aim-tracker__nav-arrow--right {
-  padding-left: 0.8rem;
+  right: 0;
+}
+
+.aim-tracker__nav-arrow {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.aim-tracker__column--logs:hover .aim-tracker__nav-arrow {
+  opacity: 1;
+  visibility: visible;
 }
 
 .aim-tracker__nav-arrow:hover {
@@ -513,16 +523,6 @@ body {
   transform: scale(1.1);
 }
 
-.aim-tracker__nav-arrow {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.aim-tracker__log-container:hover .aim-tracker__nav-arrow {
-  opacity: 1;
-  visibility: visible;
-}
 .aim-tracker__delete-btn {
   visibility: hidden;
   width: 8%;
