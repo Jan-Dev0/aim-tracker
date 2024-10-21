@@ -10,10 +10,12 @@
       href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans+Mono:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+
     <script src="https://kit.fontawesome.com/19f117a27b.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
     <script src="main.js" defer></script>
   </head>
   <body>
@@ -27,58 +29,49 @@
 
       <!-- Main tracker area -->
       <div class="aim-tracker__tracker">
+         <!-- Column Headers -->
+          
+            <div class="aim-tracker__column-header aim-tracker__column-header--aims">
+              <h2 class="aim-tracker__column-title">Ziele</h2>
+            </div>
+          
+            <div class="aim-tracker__column-header aim-tracker__column-header--logs">
+              <h2 class="aim-tracker__column-title aim-tracker__column-title--date">
+                <span class="aim-tracker__month-nav--prev"> <i class="fa-solid fa-caret-left"></i> </span
+                ><span class="aim-tracker__month-name">Monat</span
+                ><span class="aim-tracker__month-nav--next"> <i class="fa-solid fa-caret-right"></i></span>
+              </h2>
+            </div>
+            <div class="aim-tracker__column-header aim-tracker__column-header--reviews">
+              <h2 class="aim-tracker__column-title">Rückblick</h2>
+            </div>
+          
+        
+
         <!-- Column for aims and time intervals -->
-        <div class="aim-tracker__column-header--aims">
-          <h2 class="aim-tracker__column-title">Ziele</h2>
-        </div>
-        <div class="aim-tracker__column-header--logs">
-          <h2 class="aim-tracker__column-title aim-tracker__column-title--date">
-            <span class="aim-tracker__month-nav--prev"> <i class="fa-solid fa-caret-left"></i> </span
-            ><span class="aim-tracker__month-name">Monat</span
-            ><span class="aim-tracker__month-nav--next"> <i class="fa-solid fa-caret-right"></i></span>
-          </h2>
-        </div>
-        <div class="aim-tracker__column-header--reviews">
-          <h2 class="aim-tracker__column-title">Rückblick</h2>
-        </div>
-
         <div class="aim-tracker__column aim-tracker__column--aims">
-          <!-- Aims column Header-->
-
+          <!-- Aims column labels-->
           <div class="aim-tracker__aim-label-wrapper">
             <div class="aim-tracker__aim-label">Ziel</div>
             <div class="aim-tracker__interval-label">Intervall</div>
           </div>
-
-          <!-- Wrapper for aim inputs -->
+          <!-- Containter for aim inputs -->
           <div class="aim-tracker__aims-container"></div>
           <button class="aim-tracker__add-aim-btn">
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
-
         <!-- Column for logging daily entries -->
         <div class="aim-tracker__column aim-tracker__column--logs">
-          <!-- Wrapper for daily entries -->
-<!--
-          <button class="aim-tracker__nav-arrow aim-tracker__nav-arrow--left">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-        -->
-          <div class="aim-tracker__months-container">
-            
+          <div class="swiper">
+            <!-- Months container -->
+            <div class="aim-tracker__months-container swiper-wrapper"></div>
           </div>
-<!--
-          <button class="aim-tracker__nav-arrow aim-tracker__nav-arrow--right">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-           -->
         </div>
-     
+
         <!-- Column for review/analysis of entries -->
         <div class="aim-tracker__column aim-tracker__column--reviews">
           <!-- Review Labels-->
-
           <div class="aim-tracker__review-label-wrapper">
             <div class="aim-tracker__review-label aim-tracker__review-label--eval">Auswertung</div>
             <div class="aim-tracker__review-label aim-tracker__review-label--bounty">Belohnung</div>
@@ -86,8 +79,7 @@
               <i class="fa-regular fa-square-check"></i>
             </div>
           </div>
-
-          <!-- Wrapper for review inputs -->
+          <!-- Container for review inputs -->
           <div class="aim-tracker__review-container"></div>
         </div>
       </div>

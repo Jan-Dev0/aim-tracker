@@ -1,14 +1,10 @@
 const aimsContainer = document.querySelector(".aim-tracker__aims-container");
 const reviewContainer = document.querySelector(".aim-tracker__review-container");
-const leftBtn = document.querySelector(".aim-tracker__nav-arrow--left");
-const rightBtn = document.querySelector(".aim-tracker__nav-arrow--right");
 const monthsContainer = document.querySelector(".aim-tracker__months-container");
 const addBtn = document.querySelector(".aim-tracker__add-aim-btn");
 const monthEl = document.querySelector(".aim-tracker__month-name");
 const prevMonth = document.querySelector(".aim-tracker__month-nav--prev");
 const nextMonth = document.querySelector(".aim-tracker__month-nav--next");
-
-
 
 const colors = [
   { light: "var(--peach-light)", medium: "var(--peach-medium)", dark: "var(--peach-dark)" },
@@ -117,6 +113,7 @@ const createDaysLabel = (month) => {
 };
 
 const createCheckRow = (month, rowNumber) => {
+  console.log("createCheckRow");
   const date = DateTime.local(year, month);
   let daysInMonth = date.daysInMonth;
   const row = document.createElement("div");
@@ -267,6 +264,7 @@ const addRow = () => {
 };
 
 const init = () => {
+  console.log("init");
   for (let row = 1; row <= defaultRows; row++) {
     totalRows++;
     const aimRow = createAimRow(row);
@@ -281,6 +279,7 @@ const init = () => {
 };
 
 const initMonths = () => {
+  console.log("initMonths");
   monthsContainer.innerHTML = "";
 
   for (let i = -2; i <= 2; i++) {
@@ -288,16 +287,18 @@ const initMonths = () => {
     const monthEl = createMonthElement(monthIndex);
     monthsContainer.append(monthEl);
   }
-  const monthWidth = monthsContainer.children[0].offsetWidth + monthsContainer.children[1].offsetWidth;
- //monthsContainer.style.transform = `translateX(-${monthWidth}px)`;
   updateCurrentMonthClass();
 };
 
 const createMonthElement = (monthIndex) => {
+  console.log("createMonthElement");
+  const monthContainerWrapper = document.createElement('div');
+  monthContainerWrapper.style.backgroundColor = colors[monthIndex - 1].light;
+  monthContainerWrapper.classList.add('aim-tracker__month-container-wrapper', 'swiper-slide');
   const monthContainer = document.createElement("div");
   monthContainer.classList.add("aim-tracker__month-container");
 
-  monthContainer.style.backgroundColor = colors[monthIndex - 1].light;
+ 
   monthContainer.setAttribute("data-month", DateTime.local(year, monthIndex).toFormat("LLLL"));
 
   const labelsContainer = document.createElement("div");
@@ -316,93 +317,48 @@ const createMonthElement = (monthIndex) => {
   }
 
   monthContainer.append(labelsContainer, checkFieldContainer);
-
-  return monthContainer;
+  monthContainerWrapper.append(monthContainer);
+  return monthContainerWrapper;
 };
 
 init();
 
-
-function scrollMonths(direction) {
-   const monthWidth = monthsContainer.children[0].offsetWidth + monthsContainer.children[1].offsetWidth;
-  const months = [...monthsContainer.children];
-  
-  if (direction === "next") {
-    const width = months[0].offsetWidth + months[1].offsetWidth + months[2].offsetWidth;
-    
-    [currentMonth, year] = currentMonth + 1 > 12 ? [1, year + 1] : [currentMonth + 1, year];
-    let date = DateTime.local(year, currentMonth).setLocale("de");
-    monthEl.textContent = `${date.toFormat('LLLL')} ${year}`;
-    monthsContainer.style.transform = `translateX(-${width}px)`;
-
-  } else {
-    const width = document.querySelector('.aim-tracker__current-month').offsetWidth;
-    
-    [currentMonth, year] = currentMonth - 1 < 1 ? [12, year - 1] : [currentMonth - 1, year];
-    let date = DateTime.local(year, currentMonth).setLocale("de");
-    monthEl.textContent = `${date.toFormat('LLLL')} ${year}`;
-    monthsContainer.style.transform = `translateX(-${width}px)`;
-  }
-
-  disableButtons();
-
-  setTimeout(() => {
-    if (direction === "next") {
-      monthsContainer.removeChild(monthsContainer.firstChild);
-      const newMonth = createMonthElement((currentMonth + 2) % 12);
-      monthsContainer.appendChild(newMonth);
-    } else {
-      monthsContainer.removeChild(monthsContainer.lastChild);
-      const newMonth = createMonthElement((currentMonth - 2 + 12) % 12);
-      monthsContainer.insertBefore(newMonth, monthsContainer.firstChild);
-    }
-
-    // Reset the position to center the current month again
-    const width = months[0].offsetWidth + months[1].offsetWidth + months[2].offsetWidth;
-    monthsContainer.style.transition = "none";
-    monthsContainer.style.transform = `translateX(-${width}px)`;
-
-    // Update the "current" class after the new elements are in place
-    updateCurrentMonthClass();
-
-    // Re-enable the transition and buttons after a brief delay
-    setTimeout(() => {
-      monthsContainer.style.transition = "transform 0.5s ease";
-      enableButtons();
-    }, 50);
-  }, 300);
-}
+const swiper = new Swiper(".swiper", {
+  slidesPerView: 1,
+  centeredSlides: true,
+  direction: "horizontal",
+  loop: true,
+  grapCurosr: true,
+  initialSlide: 2,
+});
 
 function updateCurrentMonthClass() {
-  const months = monthsContainer.children;
+  console.log("updetCurrentMonthClass");
+  const months = document.querySelectorAll('.aim-tracker__month-container');
   for (let i = 0; i < months.length; i++) {
+    console.log
     months[i].classList.remove("aim-tracker__current-month");
   }
   months[2].classList.add("aim-tracker__current-month");
-}
-
-function disableButtons() {
-  prevMonth.disabled = true;
-  nextMonth.disabled = true;
-}
-
-function enableButtons() {
-  prevMonth.disabled = false;
-  nextMonth.disabled = false;
 }
 
 addBtn.addEventListener("click", () => {
   addRow();
 });
 
-leftBtn.addEventListener("click", () => {
-
-  monthsContainer.style.transform += `translateX(42rem)`;
+prevMonth.addEventListener("click", () => {
+  [currentMonth, year] = currentMonth - 1 < 1 ? [12, year - 1] : [currentMonth - 1, year];
+  let date = DateTime.local(year, currentMonth).setLocale("de");
+  monthEl.textContent = `${date.toFormat("LLLL")} ${year}`;
+  updateCurrentMonthClass();
+  swiper.slidePrev();
+});
+nextMonth.addEventListener("click", () => {
+  [currentMonth, year] = currentMonth + 1 > 12 ? [1, year + 1] : [currentMonth + 1, year];
+  let date = DateTime.local(year, currentMonth).setLocale("de");
+  monthEl.textContent = `${date.toFormat("LLLL")} ${year}`;
+  updateCurrentMonthClass();
+  swiper.slideNext();
 });
 
-rightBtn.addEventListener("click", () => {
-  monthsContainer.style.transform += `translateX(-42rem)`;
-});
 
-prevMonth.addEventListener("click", () => scrollMonths("prev"));
-nextMonth.addEventListener("click", () => scrollMonths("next"));
