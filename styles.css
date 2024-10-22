@@ -170,6 +170,8 @@ Tracker styles
   display: grid;
   grid-template-columns: minmax(30%, 1fr) minmax(40%, 2fr) minmax(30%, 1fr);
   padding: 3.2rem 0.2rem;
+  width: 90%;
+  margin: auto;
 }
 
 /*
@@ -215,6 +217,7 @@ Column styles
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  min-width: 32rem;
 }
 .aim-tracker__column-title {
   text-align: center;
@@ -327,6 +330,7 @@ Log columen styles
 .aim-tracker__column--logs {
   display: flex;
   padding: 0;
+  min-width: 47rem;
 }
 
 .swiper {
