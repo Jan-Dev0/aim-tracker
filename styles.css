@@ -170,6 +170,7 @@ Tracker styles
   display: grid;
   grid-template-columns: minmax(30%, 1fr) minmax(40%, 2fr) minmax(30%, 1fr);
   padding: 3.2rem 0.2rem;
+  min-width: 118rem;
   width: 90%;
   margin: auto;
 }
@@ -189,6 +190,7 @@ Column styles
 
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+    min-width: 32rem;
 }
 
 .aim-tracker__month-name {
